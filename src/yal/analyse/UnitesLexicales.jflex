@@ -38,7 +38,7 @@ csteE = [0-9]+
 finDeLigne = \r|\n
 espace = {finDeLigne}  | [ \t\f]
 
-comment = [//][.]*
+comment = [/]{2}.*
 
 %%
 
@@ -47,14 +47,18 @@ comment = [//][.]*
 "fin"              	   { return symbol(CodesLexicaux.FIN); }
 
 "ecrire"               { return symbol(CodesLexicaux.ECRIRE); }
+"lire"                 { return symbol(CodesLexicaux.LIRE); }
+
+"entier"               { return symbol(CodesLexicaux.ENTIER); }
 
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
+"="                    { return symbol(CodesLexicaux.AFFECT); }
 
 {csteE}      	       { return symbol(CodesLexicaux.CSTENTIERE, yytext()); }
 
 {idf}      	           { return symbol(CodesLexicaux.IDF, yytext()); }
 
-{comment}              { return symbol(CodesLexicaux.COMMENT, yytext()); }
+{comment}              { }
 
 {espace}               { }
 .                      { throw new AnalyseLexicaleException(yyline, yycolumn, yytext()) ; }

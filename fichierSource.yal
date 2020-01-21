@@ -1,6 +1,7 @@
-programme idf
+programme Test
 debut
-	//écrire 5
-	ecrire 5;
-	ecrire 6;
+ lire x;
+ //ecrire 5
+ ecrire 5;
+ ecrire 6;
 fin

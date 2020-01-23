@@ -4,6 +4,7 @@ import java.util.*;
 import yal.arbre.* ;
 import yal.arbre.expressions.* ;
 import yal.arbre.instructions.* ;
+import yal.arbre.declarations.*;
 import yal.exceptions.AnalyseSyntaxiqueException;
 
 import java_cup.runtime.*;
@@ -68,7 +69,7 @@ non terminal Expression EXP ;
  
 start with PROG ;
 
-PROG    ::=     PROGRAMME  IDF  DEBUT  LINST:li  FIN
+PROG    ::=     PROGRAMME  IDF  DEBUT  LDECL:ld  LINST:li  FIN
                 {: RESULT = li ; :}
                 ;
 
@@ -99,6 +100,16 @@ EXP    ::=     CSTENTIERE:c
                {: RESULT = new IDF(i, ileft + 1) ; :}
                ;
 
-DECL   ::=     ENTIER IDF:i POINTVIRGULE
-               {: :}
+LDECL   ::=     LDECL:ld  DECL:d
+                {: ((BlocDInstructions)ld).ajouter(d) ;
+                   RESULT = ld ; :}
+        |
+                DECL:d
+                {: BlocDInstructions b = new BlocDInstructions(dleft + 1) ;
+                   b.ajouter(d) ;
+                   RESULT = b ; :}
+                ;
+
+DECL   ::=     ENTIER EXP:i POINTVIRGULE
+               {: RESULT = new Decl_var(i, ileft + 1) ; :}
                ;

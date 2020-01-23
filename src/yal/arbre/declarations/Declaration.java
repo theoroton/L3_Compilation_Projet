@@ -1,4 +1,10 @@
-package yal.arbre.declaration;
+package yal.arbre.declarations;
 
-public class Declaration {
+import yal.arbre.ArbreAbstrait;
+
+public abstract class Declaration extends ArbreAbstrait {
+
+    protected Declaration(int n) {
+        super(n);
+    }
 }

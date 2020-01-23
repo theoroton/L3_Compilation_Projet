@@ -1,5 +1,7 @@
 programme Test
 debut
+ entier y;
+ y = 5;
  lire x;
  //ecrire 5
  ecrire 5;

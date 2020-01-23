@@ -1,5 +1,4 @@
 # Project exclude paths
 /out/
-Compilation.iml
 fichierSource.mips
 .idea/

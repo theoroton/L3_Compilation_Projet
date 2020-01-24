@@ -2,3 +2,4 @@
 /out/
 fichierSource.mips
 .idea/
+src/build.xml

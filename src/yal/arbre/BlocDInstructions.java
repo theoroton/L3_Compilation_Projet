@@ -1,5 +1,8 @@
 package yal.arbre;
 
+import yal.tds.TDS;
+import yal.tds.Variable;
+
 import java.util.ArrayList;
 
 /**
@@ -28,6 +31,9 @@ public class BlocDInstructions extends ArbreAbstrait {
 
     @Override
     public void verifier() {
+        for (ArbreAbstrait a : programme){
+            a.verifier();
+        }
     }
     
     @Override
@@ -39,6 +45,12 @@ public class BlocDInstructions extends ArbreAbstrait {
 
         mips.append(".text\n");
         mips.append("main :\n");
+
+        int taille = TDS.getInstance().getTailleZoneVariable();
+        if (taille < 0){
+            mips.append("\tmove $s7, $sp\n\n");
+            mips.append("\taddi $sp, $sp, "+ taille + "\n\n");
+        }
 
         for (ArbreAbstrait a : programme){
             mips.append(a.toMIPS()+"\n");

@@ -1,9 +1,12 @@
 programme Test
 debut
+ entier x;
  entier y;
- y = 5;
+ 
  lire x;
- //ecrire 5
- ecrire 5;
- ecrire 6;
+ y = 5;
+ 
+ ecrire x;
+ ecrire y;
+ ecrire 9;
 fin

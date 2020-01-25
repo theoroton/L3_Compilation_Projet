@@ -13,14 +13,14 @@ public class Ecrire extends Instruction {
 
     @Override
     public void verifier() {
-        //System.out.println("Ecrire");
+        exp.verifier();
     }
 
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
         mips.append("\tli $v0, 1\n");
-        mips.append(exp.toMIPS());
+        mips.append("\t"+exp.affect()+" $a0, "+exp.toMIPS()+"\n");
         mips.append("\tsyscall\n");
 
         mips.append("\n");

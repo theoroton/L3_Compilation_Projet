@@ -27,7 +27,7 @@ public class Affect extends Instruction {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
 
-        mips.append("\tli $v0, "+expDroite.toString()+"\n");
+        mips.append("\t"+expDroite.affect()+" $v0, "+expDroite.toMIPS()+"\n");
         mips.append("\tsw $v0, "+ TDS.getInstance().identifier(new Variable(idfGauche.toString())).getDeplacement()+"($s7)\n");
 
         return mips.toString();

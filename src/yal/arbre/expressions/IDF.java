@@ -25,11 +25,16 @@ public class IDF extends Expression {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
-        mips.append("\tlw $a0, "+ TDS.getInstance().identifier(new Variable(nom)).getDeplacement()+"($s7)\n");
+        mips.append(TDS.getInstance().identifier(new Variable(nom)).getDeplacement()+"($s7)");
         return mips.toString();
     }
 
     public String toString(){
         return nom;
+    }
+
+    @Override
+    public String affect() {
+        return "lw";
     }
 }

@@ -1,19 +1,24 @@
 package yal.tds;
 
+import yal.exceptions.AnalyseSemantiqueException;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TDS {
 
     private HashMap<Entree,Symbole> table;
     private int deplacement_tot;
+    private ArrayList<AnalyseSemantiqueException> exceptions_sem;
     private static TDS instance = new TDS();
 
     public TDS(){
         table = new HashMap<Entree,Symbole>();
         deplacement_tot = 0;
+        exceptions_sem = new ArrayList<AnalyseSemantiqueException>();
     }
 
-    public void ajouter(Entree e,Symbole s){
+    public void ajouter(Entree e,Symbole s,int noLigne){
 
         boolean existe = false;
 
@@ -27,8 +32,8 @@ public class TDS {
             table.put(e,s);
             deplacement_tot -= e.getTaille();
         } else {
-            //A ajouter en exception
-            System.out.println(e.getNom() + " DEJA DECLAREE");
+            AnalyseSemantiqueException ex = new AnalyseSemantiqueException(noLigne, "Variable '"+e.getNom()+ "' : déjà déclarée");
+            exceptions_sem.add(ex);
         }
 
     }
@@ -46,6 +51,10 @@ public class TDS {
 
     public int getTailleZoneVariable(){
         return deplacement_tot;
+    }
+
+    public ArrayList<AnalyseSemantiqueException> getExceptions_sem() {
+        return exceptions_sem;
     }
 
     public static TDS getInstance(){

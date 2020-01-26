@@ -6,10 +6,6 @@ public class Variable extends Entree {
         super(n);
     }
 
-    public String getNom(){
-        return nom;
-    }
-
     public int getTaille() {
         return 4;
     }

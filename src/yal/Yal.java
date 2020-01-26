@@ -41,7 +41,6 @@ public class Yal {
             System.err.println("\tjava -jar yal.jar <fichierSource.yal>") ;
             System.exit(1) ;
         }
-        System.out.println(args[0]);
         new yal.Yal(args[0]) ;
     }
     

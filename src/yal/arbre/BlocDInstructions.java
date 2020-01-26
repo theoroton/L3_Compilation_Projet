@@ -1,9 +1,12 @@
 package yal.arbre;
 
+import yal.exceptions.AnalyseSemantiqueException;
 import yal.tds.TDS;
 import yal.tds.Variable;
 
 import java.util.ArrayList;
+
+import static java.lang.System.exit;
 
 /**
  * 21 novembre 2018
@@ -31,8 +34,28 @@ public class BlocDInstructions extends ArbreAbstrait {
 
     @Override
     public void verifier() {
+        boolean verif = true;
+
+        for (AnalyseSemantiqueException ex : TDS.getInstance().getExceptions_sem()){
+            System.err.println(ex.getMessage());
+            if (verif){
+                verif = false;
+            }
+        }
+
         for (ArbreAbstrait a : programme){
-            a.verifier();
+            try {
+                a.verifier();
+            } catch (AnalyseSemantiqueException ex){
+                System.err.println(ex.getMessage());
+                if (verif){
+                    verif = false;
+                }
+            }
+        }
+
+        if (!verif){
+            exit(0);
         }
     }
     

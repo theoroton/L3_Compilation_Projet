@@ -8,7 +8,9 @@ public abstract class Entree {
         nom = n;
     }
 
-    public abstract String getNom();
+    public String getNom(){
+        return nom;
+    }
     public abstract int getTaille();
 
 }

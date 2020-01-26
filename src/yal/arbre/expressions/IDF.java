@@ -1,5 +1,6 @@
 package yal.arbre.expressions;
 
+import yal.exceptions.AnalyseSemantiqueException;
 import yal.tds.Symbole;
 import yal.tds.TDS;
 import yal.tds.Variable;
@@ -17,8 +18,7 @@ public class IDF extends Expression {
     public void verifier() {
         Symbole s = TDS.getInstance().identifier(new Variable(nom));
         if (s == null){
-            //Ajouter exception non déclarée
-            System.out.println(nom+ " NON DECLAREE");
+            throw new AnalyseSemantiqueException(noLigne, "Variable '"+nom+ "' : non déclarée");
         }
     }
 

@@ -111,5 +111,5 @@ LDECL   ::=     LDECL:ld  DECL:d
                 ;
 
 DECL   ::=     ENTIER IDF:i POINTVIRGULE
-               {: TDS.getInstance().ajouter(new Variable(i), new Symbole(TDS.getInstance().getTailleZoneVariable())) ; :}
+               {: TDS.getInstance().ajouter(new Variable(i), new Symbole(TDS.getInstance().getTailleZoneVariable()), ileft + 1) ; :}
                ;

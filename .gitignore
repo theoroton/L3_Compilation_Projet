@@ -1,7 +1,8 @@
 # Project exclude paths
 /out/
-fichierSource.mips
+*.yal
+*.mips
 .idea/
 src/build.xml
 src/META-INF/
-fichierSource.yal
+

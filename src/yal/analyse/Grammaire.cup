@@ -86,11 +86,11 @@ LINST   ::=     LINST:li  INST:i
 INST    ::=     ECRIRE EXP:e POINTVIRGULE
                 {: RESULT = new Ecrire(e, eleft + 1) ; :}
         |
-                LIRE EXP:i POINTVIRGULE
-                {: RESULT = new Lire(i, ileft + 1) ; :}
+                LIRE IDF:i POINTVIRGULE
+                {: RESULT = new Lire(new IDF(i, ileft + 1), ileft + 1) ; :}
         |
-                EXP:i AFFECT EXP:e POINTVIRGULE
-                {: RESULT = new Affect(i, e, ileft + 1) ; :}
+                IDF:i AFFECT EXP:e POINTVIRGULE
+                {: RESULT = new Affect(new IDF(i, ileft + 1), e, ileft + 1) ; :}
                 ;
     
 EXP    ::=     CSTENTIERE:c

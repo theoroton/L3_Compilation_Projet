@@ -1,13 +1,14 @@
 package yal.arbre.instructions;
 
 import yal.arbre.expressions.Expression;
+import yal.arbre.expressions.IDF;
 import yal.tds.*;
 
 public class Lire extends Instruction {
 
-    protected Expression idf;
+    protected IDF idf;
 
-    public Lire (Expression i, int n) {
+    public Lire (IDF i, int n) {
         super(n) ;
         idf = i;
     }

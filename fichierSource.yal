@@ -1,8 +1,16 @@
 programme essai5
 debut
-	lire 6;
-	// Erreurs à avoir :
-	// Ligne 3 : Erreur syntaxique
+	entier x;
+	entier y;
+	
+	6 = 9;
+	
+	ecrire 5;
+	ecrire x;
+	
+	y = x;
+	
+	ecrire y;
 fin
 
 

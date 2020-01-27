@@ -71,6 +71,9 @@ start with PROG ;
 
 PROG    ::=     PROGRAMME  IDF  DEBUT  LDECL:ld  LINST:li  FIN
                 {: RESULT = li ; :}
+        |
+                PROGRAMME IDF DEBUT LINST:li FIN
+                {: RESULT = li ; :}
                 ;
 
 LINST   ::=     LINST:li  INST:i

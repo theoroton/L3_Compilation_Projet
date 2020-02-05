@@ -17,4 +17,9 @@ public class ConstanteEntiere extends Constante {
     public String affect() {
         return "li";
     }
+
+    @Override
+    public String type() {
+        return "int";
+    }
 }

@@ -37,4 +37,9 @@ public class IDF extends Expression {
     public String affect() {
         return "lw";
     }
+
+    @Override
+    public String type() {
+        return "int";
+    }
 }

@@ -11,11 +11,15 @@ public class TDS {
     private int deplacement_tot;
     private ArrayList<AnalyseSemantiqueException> exceptions_sem;
     private static TDS instance = new TDS();
+    private int numSi;
+    private int numTantque;
 
     public TDS(){
         table = new HashMap<Entree,Symbole>();
         deplacement_tot = 0;
         exceptions_sem = new ArrayList<AnalyseSemantiqueException>();
+        numSi = 0;
+        numTantque = 0;
     }
 
     public void ajouter(Entree e,Symbole s,int noLigne){
@@ -59,5 +63,15 @@ public class TDS {
 
     public static TDS getInstance(){
         return instance;
+    }
+
+    public int getNumSi(){
+        numSi++;
+        return numSi;
+    }
+
+    public int getNumTantque(){
+        numTantque++;
+        return numTantque;
     }
 }

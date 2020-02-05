@@ -51,6 +51,25 @@ comment = [/]{2}.*
 
 "entier"               { return symbol(CodesLexicaux.ENTIER); }
 
+"si"                   { return symbol(CodesLexicaux.SI); }
+"alors"                { return symbol(CodesLexicaux.ALORS); }
+"sinon"                { return symbol(CodesLexicaux.SINON); }
+"finsi"                { return symbol(CodesLexicaux.FINSI); }
+
+"tantque"              { return symbol(CodesLexicaux.TANTQUE); }
+"repeter"              { return symbol(CodesLexicaux.REPETER); }
+"fintantque"           { return symbol(CodesLexicaux.FINTANTQUE); }
+
+"non"                  { return symbol(CodesLexicaux.NON); }
+
+"+"                    { return symbol(CodesLexicaux.ADDITION); }
+"-"                    { return symbol(CodesLexicaux.SOUSTRACTION); }
+"*"                    { return symbol(CodesLexicaux.MULTIPLICATION); }
+"/"                    { return symbol(CodesLexicaux.DIVISION); }
+
+"<"                    { return symbol(CodesLexicaux.INFERIEUR); }
+">"                    { return symbol(CodesLexicaux.SUPERIEUR); }
+
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
 "="                    { return symbol(CodesLexicaux.AFFECT); }
 

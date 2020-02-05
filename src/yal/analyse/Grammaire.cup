@@ -4,6 +4,7 @@ import java.util.*;
 import yal.arbre.* ;
 import yal.arbre.expressions.* ;
 import yal.arbre.instructions.* ;
+import yal.arbre.operations.* ;
 import yal.tds.* ;
 import yal.exceptions.AnalyseSyntaxiqueException;
 
@@ -57,13 +58,21 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    PROGRAMME, DEBUT, FIN, POINTVIRGULE, ECRIRE, LIRE, ENTIER, AFFECT ;
+terminal Symbol    PROGRAMME, DEBUT, FIN, POINTVIRGULE, ECRIRE, LIRE, ENTIER, AFFECT, SI, ALORS, SINON, FINSI,
+                   TANTQUE, REPETER, FINTANTQUE, ADDITION, SOUSTRACTION, MULTIPLICATION, DIVISION, NON, INFERIEUR,
+                   SUPERIEUR ;
 terminal String    IDF, CSTENTIERE ;
    
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST, INST, LDECL, DECL;
+non terminal ArbreAbstrait PROG, LINST, INST, LDECL, DECL ;
 non terminal Expression EXP ;
+non terminal Operation OPER ;
+
+precedence left NON ;
+precedence left ADDITION, SOUSTRACTION ;
+precedence left MULTIPLICATION, DIVISION ;
+precedence left INFERIEUR, SUPERIEUR ;
 
 /* ----------------------------Grammar Section-------------------- */
  
@@ -94,14 +103,32 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
         |
                 IDF:i AFFECT EXP:e POINTVIRGULE
                 {: RESULT = new Affect(new IDF(i, ileft + 1), e, ileft + 1) ; :}
+        |
+                SI EXP:e ALORS LINST:li FINSI
+                {: RESULT = new Si(e, li, null, eleft + 1) ; :}
+        |
+                SI EXP:e ALORS LINST:li1 SINON LINST:li2 FINSI
+                {: RESULT = new Si(e, li1, li2, eleft + 1) ; :}
+        |
+                TANTQUE EXP:e REPETER LINST:li FINTANTQUE
+                {: RESULT = new TantQue(e, li, eleft + 1) ; :}
                 ;
     
-EXP    ::=     CSTENTIERE:c
-               {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
+EXP    ::=      CSTENTIERE:c
+                {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
         |
-               IDF:i
-               {: RESULT = new IDF(i, ileft + 1) ; :}
-               ;
+                IDF:i
+                {: RESULT = new IDF(i, ileft + 1) ; :}
+        |
+                SOUSTRACTION EXP:e
+                {: RESULT = new ExpressionNegative(e, eleft + 1) ; :}
+        |
+                NON EXP:e
+                {: RESULT = new ExpressionNon(e, eleft + 1) ; :}
+        |
+                EXP:e1 OPER:o EXP:e2
+                {: RESULT = new OperationBinaire(e1, o, e2, e1left + 1) ; :}
+                ;
 
 LDECL   ::=     LDECL:ld  DECL:d
                 {: ((BlocDInstructions)ld).ajouter(d) ;
@@ -113,6 +140,25 @@ LDECL   ::=     LDECL:ld  DECL:d
                    RESULT = b ; :}
                 ;
 
-DECL   ::=     ENTIER IDF:i POINTVIRGULE
-               {: TDS.getInstance().ajouter(new Variable(i), new Symbole(TDS.getInstance().getTailleZoneVariable()), ileft + 1) ; :}
-               ;
+DECL   ::=      ENTIER IDF:i POINTVIRGULE
+                {: TDS.getInstance().ajouter(new Variable(i), new Symbole(TDS.getInstance().getTailleZoneVariable()), ileft + 1) ; :}
+                ;
+
+OPER   ::=      ADDITION:a
+                {: RESULT = new Addition(aleft + 1) ; :}
+       |
+                SOUSTRACTION:s
+                {: RESULT = new Soustraction(sleft + 1) ; :}
+       |
+                MULTIPLICATION:m
+                {: RESULT = new Multiplication(mleft + 1) ; :}
+       |
+                DIVISION:d
+                {: RESULT = new Division(dleft + 1) ; :}
+       |
+                INFERIEUR:i
+                {: RESULT = new Inferieur(ileft + 1) ; :}
+       |
+                SUPERIEUR:s
+                {: RESULT = new Superieur(sleft + 1) ; :}
+                ;

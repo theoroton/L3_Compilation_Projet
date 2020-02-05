@@ -9,5 +9,6 @@ public abstract class Expression extends ArbreAbstrait {
     }
 
     public abstract String affect();
+    public abstract String type();
 
 }

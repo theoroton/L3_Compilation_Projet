@@ -9,6 +9,11 @@ public class Multiplication extends OperationResultEntier {
     }
 
     @Override
+    public String symbole() {
+        return "*";
+    }
+
+    @Override
     public void verifier() {
 
     }

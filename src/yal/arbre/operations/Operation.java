@@ -11,4 +11,5 @@ public abstract class Operation extends ArbreAbstrait {
 
     public abstract void operandes(Expression e1, Expression e2);
     public abstract String resultat();
+    public abstract String symbole();
 }

@@ -12,7 +12,7 @@ public abstract class Operation2Entiers extends Operation {
     @Override
     public void operandes(Expression e1, Expression e2) {
         if (!(e1.type().equals("int") && e2.type().equals("int"))){
-            throw new AnalyseSemantiqueException(noLigne, e1 + " + "  + e2 + " : les opérandes ne sont pas entiers");
+            throw new AnalyseSemantiqueException(noLigne, e1 + " " + symbole() + " " + e2 + " : les opérandes ne sont pas entiers");
         }
     }
 }

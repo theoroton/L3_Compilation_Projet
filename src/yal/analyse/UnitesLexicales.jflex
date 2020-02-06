@@ -70,6 +70,15 @@ comment = [/]{2}.*
 "<"                    { return symbol(CodesLexicaux.INFERIEUR); }
 ">"                    { return symbol(CodesLexicaux.SUPERIEUR); }
 
+"("                    { return symbol(CodesLexicaux.PARENTHESEGAUCHE); }
+")"                    { return symbol(CodesLexicaux.PARENTHESEDROITE); }
+
+"=="                   { return symbol(CodesLexicaux.EGAL); }
+"!="                   { return symbol(CodesLexicaux.DIFFERENT); }
+
+"et"                   { return symbol(CodesLexicaux.ET); }
+"ou"                   { return symbol(CodesLexicaux.OU); }
+
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
 "="                    { return symbol(CodesLexicaux.AFFECT); }
 

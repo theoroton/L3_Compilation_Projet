@@ -9,6 +9,11 @@ public class Soustraction extends OperationResultEntier {
     }
 
     @Override
+    public String symbole() {
+        return "-";
+    }
+
+    @Override
     public void verifier() {
 
     }

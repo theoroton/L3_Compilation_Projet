@@ -7,6 +7,11 @@ public class Superieur extends OperationResultBooleen {
     }
 
     @Override
+    public String symbole() {
+        return ">";
+    }
+
+    @Override
     public void verifier() {
 
     }

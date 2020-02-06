@@ -10,6 +10,11 @@ public class Addition extends OperationResultEntier {
     }
 
     @Override
+    public String symbole() {
+        return "+";
+    }
+
+    @Override
     public void verifier() {}
 
     @Override

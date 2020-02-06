@@ -24,7 +24,10 @@ public class OperationBinaire extends Expression {
 
     @Override
     public String toMIPS() {
-        return null;
+        StringBuffer mips = new StringBuffer();
+        mips.append("\t" + operation.toMIPS() + "\n");
+
+        return mips.toString();
     }
 
     @Override

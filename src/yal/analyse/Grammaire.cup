@@ -60,7 +60,7 @@ parser code {:
 
 terminal Symbol    PROGRAMME, DEBUT, FIN, POINTVIRGULE, ECRIRE, LIRE, ENTIER, AFFECT, SI, ALORS, SINON, FINSI,
                    TANTQUE, REPETER, FINTANTQUE, ADDITION, SOUSTRACTION, MULTIPLICATION, DIVISION, NON, INFERIEUR,
-                   SUPERIEUR ;
+                   SUPERIEUR, PARENTHESEGAUCHE, PARENTHESEDROITE, EGAL, DIFFERENT, ET, OU ;
 terminal String    IDF, CSTENTIERE ;
    
 /* Non terminals used in the grammar section.  */
@@ -69,10 +69,14 @@ non terminal ArbreAbstrait PROG, LINST, INST, LDECL, DECL ;
 non terminal Expression EXP ;
 non terminal Operation OPER ;
 
-precedence left NON ;
+precedence left ET, OU ;
+precedence left EGAL, DIFFERENT ;
+precedence left INFERIEUR, SUPERIEUR ;
 precedence left ADDITION, SOUSTRACTION ;
 precedence left MULTIPLICATION, DIVISION ;
-precedence left INFERIEUR, SUPERIEUR ;
+precedence left NON ;
+precedence left PARENTHESEGAUCHE, PARENTHESEDROITE ;
+
 
 /* ----------------------------Grammar Section-------------------- */
  
@@ -128,6 +132,9 @@ EXP    ::=      CSTENTIERE:c
         |
                 EXP:e1 OPER:o EXP:e2
                 {: RESULT = new OperationBinaire(e1, o, e2, e1left + 1) ; :}
+        |
+                PARENTHESEGAUCHE EXP:e PARENTHESEDROITE
+                {: RESULT = new ExpressionParenthese(e, eleft + 1) ; :}
                 ;
 
 LDECL   ::=     LDECL:ld  DECL:d
@@ -161,4 +168,16 @@ OPER   ::=      ADDITION:a
        |
                 SUPERIEUR:s
                 {: RESULT = new Superieur(sleft + 1) ; :}
+       |
+                EGAL:e
+                {: RESULT = new Egal(eleft + 1) ; :}
+       |
+                DIFFERENT:d
+                {: RESULT = new Different(dleft + 1) ; :}
+       |
+                ET:e
+                {: RESULT = new Et(eleft + 1) ; :}
+       |
+                OU:o
+                {: RESULT = new Ou(oleft + 1) ; :}
                 ;

@@ -62,26 +62,34 @@ public class BlocDInstructions extends ArbreAbstrait {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
-        mips.append(".data\n");
-        mips.append("newLine: .asciiz \"\\n\"");
-        mips.append("\n\n");
 
-        mips.append(".text\n");
-        mips.append("main :\n");
 
-        int taille = TDS.getInstance().getTailleZoneVariable();
-        if (taille < 0){
-            mips.append("\tmove $s7, $sp\n\n");
-            mips.append("\taddi $sp, $sp, "+ taille + "\n\n");
+        if (TDS.getInstance().isBlocPrincipal()){
+            mips.append(".data\n");
+            mips.append("newLine: .asciiz \"\\n\"");
+            mips.append("\n\n");
+
+            mips.append(".text\n");
+            mips.append("main :\n");
+
+            int taille = TDS.getInstance().getTailleZoneVariable();
+            if (taille < 0){
+                mips.append("\tmove $s7, $sp\n\n");
+                mips.append("\taddi $sp, $sp, "+ taille + "\n\n");
+            }
         }
+
 
         for (ArbreAbstrait a : programme){
             mips.append(a.toMIPS()+"\n");
         }
 
-        mips.append("end :\n");
-        mips.append("\tli $v0, 10\n");
-        mips.append("\tsyscall\n");
+        if (TDS.getInstance().isBlocPrincipal()){
+            mips.append("end :\n");
+            mips.append("\tli $v0, 10\n");
+            mips.append("\tsyscall\n");
+        }
+
         return mips.toString();
     }
 

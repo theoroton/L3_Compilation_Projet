@@ -20,6 +20,9 @@ public class Division extends OperationResultEntier {
 
     @Override
     public String toMIPS() {
-        return null;
+        StringBuffer mips = new StringBuffer();
+        mips.append("div $t8, $v0\n");
+        mips.append("\tmflo $v0");
+        return mips.toString();
     }
 }

@@ -18,6 +18,8 @@ public class Inferieur extends OperationResultBooleen {
 
     @Override
     public String toMIPS() {
-        return "bge";
+        StringBuffer mips = new StringBuffer();
+        mips.append("bge $t8, $v0");
+        return mips.toString();
     }
 }

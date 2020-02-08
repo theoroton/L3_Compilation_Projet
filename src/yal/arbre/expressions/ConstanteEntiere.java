@@ -9,13 +9,8 @@ public class ConstanteEntiere extends Constante {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
-        mips.append(cste);
+        mips.append("\tli $v0, " + cste + "\n");
         return mips.toString();
-    }
-
-    @Override
-    public String affect() {
-        return "li";
     }
 
     @Override

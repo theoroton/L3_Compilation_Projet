@@ -10,11 +10,6 @@ public class ExpressionNegative extends Expression {
     }
 
     @Override
-    public String affect() {
-        return null;
-    }
-
-    @Override
     public String type() {
         return "int";
     }

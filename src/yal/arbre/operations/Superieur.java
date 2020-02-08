@@ -18,6 +18,8 @@ public class Superieur extends OperationResultBooleen {
 
     @Override
     public String toMIPS() {
-        return "ble";
+        StringBuffer mips = new StringBuffer();
+        mips.append("ble $t8, $v0");
+        return mips.toString();
     }
 }

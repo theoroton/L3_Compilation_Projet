@@ -20,6 +20,9 @@ public class Multiplication extends OperationResultEntier {
 
     @Override
     public String toMIPS() {
-        return null;
+        StringBuffer mips = new StringBuffer();
+        mips.append("mult $v0, $t8\n");
+        mips.append("\tmflo $v0");
+        return mips.toString();
     }
 }

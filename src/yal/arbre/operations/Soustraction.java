@@ -20,6 +20,8 @@ public class Soustraction extends OperationResultEntier {
 
     @Override
     public String toMIPS() {
-        return "sub $v0,";
+        StringBuffer mips = new StringBuffer();
+        mips.append( "sub $v0, $t8, $v0");
+        return mips.toString();
     }
 }

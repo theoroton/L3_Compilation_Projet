@@ -20,7 +20,7 @@ public class Ecrire extends Instruction {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
         mips.append("\tli $v0, 1\n");
-        mips.append("\t"+exp.affect()+" $a0, "+exp.toMIPS()+"\n");
+        mips.append(exp.toMIPS());
         mips.append("\tsyscall\n");
 
         mips.append("\n");

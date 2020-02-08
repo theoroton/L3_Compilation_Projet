@@ -25,16 +25,31 @@ public class OperationBinaire extends Expression {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
-        mips.append("\t" + expGauche.affect() + " $v0, " + expGauche.toMIPS() + "\n");
-        mips.append("\t" + expDroite.affect() + " $v1, " + expDroite.toMIPS() + "\n");
-        mips.append("\t" + operation.toMIPS() + " $v0, $v1");
+        if (expGauche.getClass() == IDF.class){
+            mips.append(expGauche.toMIPS());
+        } else if (expGauche.getClass().getSuperclass() == Constante.class){
+            mips.append(expGauche.toMIPS());
+        } else {
+            mips.append(expGauche.toMIPS());
+        }
+
+        mips.append("\tsw $v0, ($sp)\n");
+        mips.append("\tadd $sp, $sp, -4\n\n");
+
+        if (expDroite.getClass() == IDF.class){
+            mips.append(expDroite.toMIPS());
+        } else if (expDroite.getClass().getSuperclass() == Constante.class){
+            mips.append(expDroite.toMIPS());
+        } else {
+            mips.append(expDroite.toMIPS() + "\n");
+        }
+
+        mips.append("\tadd $sp, $sp, 4\n");
+        mips.append("\tlw $t8,($sp)\n\n");
+
+        mips.append("\t" + operation.toMIPS() + "\n");
 
         return mips.toString();
-    }
-
-    @Override
-    public String affect() {
-        return null;
     }
 
     @Override

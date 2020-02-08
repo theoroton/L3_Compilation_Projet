@@ -8,7 +8,6 @@ public abstract class Expression extends ArbreAbstrait {
         super(n) ;
     }
 
-    public abstract String affect();
     public abstract String type();
 
 }

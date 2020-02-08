@@ -10,11 +10,6 @@ public class ExpressionParenthese extends Expression {
     }
 
     @Override
-    public String affect() {
-        return null;
-    }
-
-    @Override
     public String type() {
         return expression.type();
     }
@@ -26,6 +21,8 @@ public class ExpressionParenthese extends Expression {
 
     @Override
     public String toMIPS() {
-        return null;
+        StringBuffer mips = new StringBuffer();
+        mips.append(expression.toMIPS());
+        return mips.toString();
     }
 }

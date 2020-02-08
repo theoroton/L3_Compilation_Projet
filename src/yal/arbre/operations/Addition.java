@@ -19,7 +19,9 @@ public class Addition extends OperationResultEntier {
 
     @Override
     public String toMIPS() {
-        return "add $v0,";
+        StringBuffer mips = new StringBuffer();
+        mips.append("add $v0, $t8, $v0");
+        return mips.toString();
     }
 
 }

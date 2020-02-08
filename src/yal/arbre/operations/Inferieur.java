@@ -18,6 +18,6 @@ public class Inferieur extends OperationResultBooleen {
 
     @Override
     public String toMIPS() {
-        return null;
+        return "bge";
     }
 }

@@ -18,6 +18,6 @@ public class Superieur extends OperationResultBooleen {
 
     @Override
     public String toMIPS() {
-        return null;
+        return "ble";
     }
 }

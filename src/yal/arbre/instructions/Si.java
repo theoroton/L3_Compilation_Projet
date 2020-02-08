@@ -37,19 +37,29 @@ public class Si extends Instruction {
     public String toMIPS() {
         int numSi = TDS.getInstance().getNumSi();
         StringBuffer mips = new StringBuffer();
-        mips.append("\tSi" + numSi + " :\n");
+        mips.append("\tSi" + numSi + " : #SI\n");
 
         mips.append("\t" + condition.toMIPS());
-        mips.append("\n");
+
+        if (instructions_Sinon != null) {
+            mips.append(" Sinon" + numSi + " #ALLER A SINON\n\n");
+        } else {
+            mips.append(" FinSi" + numSi + " #ALLER A FINSI\n\n");
+        }
 
         TDS.getInstance().setBlocPrincipal(false);
 
         mips.append("\t" + instructions_Si.toMIPS());
+        mips.append("\t\tb FinSi" + numSi + " #ALLER A FIN SI\n\n");
+
+        if (instructions_Sinon != null) {
+            mips.append("\tSinon" + numSi + " : #SINON\n");
+            mips.append("\t" + instructions_Sinon.toMIPS());
+        }
 
         TDS.getInstance().setBlocPrincipal(true);
 
-        mips.append("\t\tb FinSi" + numSi + "\n");
-        mips.append("\tFinSi" + numSi + " :\n");
+        mips.append("\tFinSi" + numSi + " : #FINSI\n");
         return mips.toString();
     }
 }

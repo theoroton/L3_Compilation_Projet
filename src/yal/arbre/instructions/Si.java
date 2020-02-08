@@ -37,29 +37,29 @@ public class Si extends Instruction {
     public String toMIPS() {
         int numSi = TDS.getInstance().getNumSi();
         StringBuffer mips = new StringBuffer();
-        mips.append("\tSi" + numSi + " : #SI\n");
+        mips.append("\tSi" + numSi + " : #Si" + numSi + "\n");
 
         mips.append("\t" + condition.toMIPS());
 
         if (instructions_Sinon != null) {
-            mips.append(" Sinon" + numSi + " #ALLER A SINON\n\n");
+            mips.append(" Sinon" + numSi + " #Aller a sinon" + numSi + "\n\n");
         } else {
-            mips.append(" FinSi" + numSi + " #ALLER A FINSI\n\n");
+            mips.append(" FinSi" + numSi + " #Aller a finsi" + numSi + "\n\n");
         }
 
         TDS.getInstance().setBlocPrincipal(false);
 
         mips.append("\t" + instructions_Si.toMIPS());
-        mips.append("\t\tb FinSi" + numSi + " #ALLER A FIN SI\n\n");
+        mips.append("\t\tb FinSi" + numSi + " #Aller a finsi" + numSi + "\n\n");
 
         if (instructions_Sinon != null) {
-            mips.append("\tSinon" + numSi + " : #SINON\n");
+            mips.append("\tSinon" + numSi + " : #Sinon" + numSi + "\n");
             mips.append("\t" + instructions_Sinon.toMIPS());
         }
 
         TDS.getInstance().setBlocPrincipal(true);
 
-        mips.append("\tFinSi" + numSi + " : #FINSI\n");
+        mips.append("\tFinSi" + numSi + " : #Finsi" + numSi + "\n");
         return mips.toString();
     }
 }

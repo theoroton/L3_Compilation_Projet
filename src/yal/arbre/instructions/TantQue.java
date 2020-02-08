@@ -33,19 +33,20 @@ public class TantQue extends Instruction {
     public String toMIPS() {
         int numTantque = TDS.getInstance().getNumTantque();
         StringBuffer mips = new StringBuffer();
-        mips.append("\tTantQue" + numTantque + " :\n");
+        mips.append("\tTantQue" + numTantque + " : #Tantque" + numTantque + "\n");
 
         mips.append("\t" + condition.toMIPS());
-        mips.append("\n");
+        mips.append(" FinTantQue" + numTantque + " #Aller a fintantque" + numTantque + "\n\n");
 
         TDS.getInstance().setBlocPrincipal(false);
 
         mips.append("\t" + instructions.toMIPS());
 
+        mips.append("\t\tb TantQue" + numTantque + " #Aller a tantque" + numTantque + "\n");
+
         TDS.getInstance().setBlocPrincipal(true);
 
-        mips.append("\t\tb FinTantQue" + numTantque + "\n");
-        mips.append("\tFinTantQue" + numTantque + " :\n");
+        mips.append("\tFinTantQue" + numTantque + " : #Fintantque" + numTantque + "\n");
         return mips.toString();
     }
 }

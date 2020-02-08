@@ -20,6 +20,6 @@ public class Soustraction extends OperationResultEntier {
 
     @Override
     public String toMIPS() {
-        return null;
+        return "sub $v0,";
     }
 }

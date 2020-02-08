@@ -19,7 +19,7 @@ public class Addition extends OperationResultEntier {
 
     @Override
     public String toMIPS() {
-        return null;
+        return "add $v0,";
     }
 
 }

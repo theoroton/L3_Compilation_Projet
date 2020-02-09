@@ -17,4 +17,5 @@ public class ConstanteEntiere extends Constante {
     public String type() {
         return "int";
     }
+
 }

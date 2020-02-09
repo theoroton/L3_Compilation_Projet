@@ -1,6 +1,8 @@
 package yal.arbre.expressions;
 
+import yal.arbre.operations.Division;
 import yal.arbre.operations.Operation;
+import yal.exceptions.AnalyseSemantiqueException;
 
 public class OperationBinaire extends Expression {
 
@@ -14,7 +16,7 @@ public class OperationBinaire extends Expression {
         expGauche = e1;
         expDroite = e2;
         operation = op;
-        System.out.println(op);
+        //System.out.println(op);
     }
 
     @Override
@@ -22,6 +24,10 @@ public class OperationBinaire extends Expression {
         expGauche.verifier();
         expDroite.verifier();
         operation.operandes(expGauche, expDroite);
+
+        if ((operation.getClass() == Division.class) && (expDroite.toString().equals("0"))){
+            throw new AnalyseSemantiqueException(noLigne, "La division par 0 est interdite");
+        }
     }
 
     @Override

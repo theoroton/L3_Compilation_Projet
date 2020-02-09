@@ -20,7 +20,7 @@ public class Ou extends Operation2Booleen {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
         mips.append("\t#Ou $t8 ou $v0\n");
-        mips.append("\tand $v0, $t8, $v0\n");
+        mips.append("\tor $v0, $t8, $v0\n");
         return mips.toString();
     }
 }

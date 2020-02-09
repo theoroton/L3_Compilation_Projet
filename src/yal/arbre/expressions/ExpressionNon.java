@@ -28,6 +28,7 @@ public class ExpressionNon extends Expression {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
         mips.append(expression.toMIPS() + "\n");
+        mips.append("\t#Expression non EXP\n");
         mips.append("\tnot $v0, $v0\n");
         return mips.toString();
     }

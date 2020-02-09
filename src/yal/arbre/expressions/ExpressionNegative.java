@@ -23,6 +23,7 @@ public class ExpressionNegative extends Expression {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
         mips.append(expression.toMIPS());
+        mips.append("\t#Expression - EXP\n");
         mips.append("\tneg $v0, $v0\n");
         return mips.toString();
     }

@@ -66,8 +66,11 @@ public class BlocDInstructions extends ArbreAbstrait {
 
         if (TDS.getInstance().isBlocPrincipal()){
             mips.append(".data\n");
-            mips.append("newLine: .asciiz \"\\n\"");
-            mips.append("\n\n");
+            mips.append("#Chaine de texte a utiliser\n");
+            mips.append("newLine: .asciiz \"\\n\"\n");
+            mips.append("vrai: .asciiz \"Vrai\\n\"\n");
+            mips.append("faux: .asciiz \"Faux\\n\"\n");
+            mips.append("\n");
 
             mips.append(".text\n");
             mips.append("main :\n");
@@ -88,7 +91,24 @@ public class BlocDInstructions extends ArbreAbstrait {
         if (TDS.getInstance().isBlocPrincipal()){
             mips.append("end :\n");
             mips.append("\tli $v0, 10\n");
-            mips.append("\tsyscall\n");
+            mips.append("\tsyscall\n\n");
+
+            mips.append("\n#Ecrire un booleen\n");
+            mips.append("ecrireBooleen :\n");
+            mips.append("\tbeq $v0, 0, ecrireFaux\n\n");
+            mips.append("\tli $v0, 4\n");
+            mips.append("\tla $a0, vrai\n");
+            mips.append("\tsyscall\n\n");
+
+            mips.append("\tb finEcrireBooleen\n\n");
+
+            mips.append("ecrireFaux :\n");
+            mips.append("\tli $v0, 4\n");
+            mips.append("\tla $a0, faux\n");
+            mips.append("\tsyscall\n\n");
+
+            mips.append("finEcrireBooleen :\n");
+            mips.append("\tjr $ra\n");
         }
 
         return mips.toString();

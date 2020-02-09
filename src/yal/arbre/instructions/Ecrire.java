@@ -1,6 +1,7 @@
 package yal.arbre.instructions;
 
 import yal.arbre.expressions.Expression;
+import yal.tds.TDS;
 
 public class Ecrire extends Instruction {
 
@@ -19,18 +20,26 @@ public class Ecrire extends Instruction {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
+
         mips.append(exp.toMIPS() + "\n");
-        mips.append("\t#Ecrire\n");
-        mips.append("\tmove $a0, $v0\n");
-        mips.append("\tli $v0, 1\n");
-        mips.append("\tsyscall\n");
 
-        mips.append("\n");
+        if (exp.type().equals("int")){
+            mips.append("\t#Ecrire\n");
+            mips.append("\tmove $a0, $v0\n");
+            mips.append("\tli $v0, 1\n");
+            mips.append("\tsyscall\n");
 
-        mips.append("\t#Retour a la ligne\n");
-        mips.append("\tli $v0, 4\n");
-        mips.append("\tla $a0, newLine\n");
-        mips.append("\tsyscall\n");
+            mips.append("\n");
+
+            mips.append("\t#Retour a la ligne\n");
+            mips.append("\tli $v0, 4\n");
+            mips.append("\tla $a0, newLine\n");
+            mips.append("\tsyscall\n");
+
+        } else {
+            mips.append("\tjal ecrireBooleen\n");
+        }
+
         return mips.toString();
     }
 

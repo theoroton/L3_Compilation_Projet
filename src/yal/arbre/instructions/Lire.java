@@ -21,6 +21,7 @@ public class Lire extends Instruction {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
+        mips.append("\t#Lire " + idf.toString() + "\n");
         mips.append("\tli $v0, 5\n");
         mips.append("\tsyscall\n");
         mips.append("\tsw $v0, "+TDS.getInstance().identifier(new Variable(idf.toString())).getDeplacement()+"($s7)\n");

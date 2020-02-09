@@ -20,7 +20,8 @@ public class Addition extends OperationResultEntier {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
-        mips.append("add $v0, $t8, $v0");
+        mips.append("\t#Addition $t8 + $v0\n");
+        mips.append("\tadd $v0, $t8, $v0\n");
         return mips.toString();
     }
 

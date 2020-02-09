@@ -19,7 +19,8 @@ public class Different extends OperationMemeType {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
-        mips.append("beq $t8, $v0");
+        mips.append("\t#Different $t8 != $v0\n");
+        mips.append("\tbeq $t8, $v0");
         return mips.toString();
     }
 }

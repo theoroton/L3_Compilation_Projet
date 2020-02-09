@@ -74,6 +74,7 @@ public class BlocDInstructions extends ArbreAbstrait {
 
             int taille = TDS.getInstance().getTailleZoneVariable();
             if (taille < 0){
+                mips.append("\t#Reservation de l'espace\n");
                 mips.append("\tmove $s7, $sp\n\n");
                 mips.append("\taddi $sp, $sp, "+ taille + "\n\n");
             }

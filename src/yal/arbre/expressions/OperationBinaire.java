@@ -16,7 +16,7 @@ public class OperationBinaire extends Expression {
         expGauche = e1;
         expDroite = e2;
         operation = op;
-        //System.out.println(op);
+        System.out.println(op);
     }
 
     @Override
@@ -34,42 +34,27 @@ public class OperationBinaire extends Expression {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
 
-//        if (expGauche.getClass() == IDF.class){
-//            mips.append(expGauche.toMIPS());
-//        } else if (expGauche.getClass().getSuperclass() == Constante.class){
-//            mips.append(expGauche.toMIPS());
-//        } else {
-//            mips.append(expGauche.toMIPS());
-//        }
-//
-//        mips.append("\tsw $v0, ($sp)\n");
-//        mips.append("\tadd $sp, $sp, -4\n\n");
-//
-//        if (expDroite.getClass() == IDF.class){
-//            mips.append(expDroite.toMIPS());
-//        } else if (expDroite.getClass().getSuperclass() == Constante.class){
-//            mips.append(expDroite.toMIPS());
-//        } else {
-//            mips.append(expDroite.toMIPS() + "\n");
-//        }
-//
-//        mips.append("\tadd $sp, $sp, 4\n");
-//        mips.append("\tlw $t8,($sp)\n\n");
-
+        //Code qui évalue l'opérande gauche
         mips.append(expGauche.toMIPS());
 
         if (expDroite.getClass().getSuperclass() == Constante.class){
             mips.append("\tmove $t8, $v0\n");
-            mips.append(expDroite.toMIPS());
+
+            //Code qui évalue la constante de droite
+            mips.append(expDroite.toMIPS() + "\n");
+
         } else {
             mips.append("\tsw $v0, ($sp)\n");
             mips.append("\taddi $sp, $sp, -4\n\n");
-            mips.append(expDroite.toMIPS());
+
+            //Code qui évalue l'opérande droit
+            mips.append(expDroite.toMIPS() + "\n");
+
             mips.append("\taddi $sp, $sp, 4\n");
             mips.append("\tlw $t8, ($sp)\n\n");
         }
 
-        mips.append("\t" + operation.toMIPS() + "\n");
+        mips.append(operation.toMIPS());
 
         return mips.toString();
     }

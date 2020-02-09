@@ -67,9 +67,9 @@ terminal String    IDF, CSTENTIERE ;
 
 non terminal ArbreAbstrait PROG, LINST, INST, LDECL, DECL ;
 non terminal Expression EXP ;
-non terminal Operation OPER ;
 
-precedence left ET, OU ;
+precedence left OU ;
+precedence left ET ;
 precedence left EGAL, DIFFERENT ;
 precedence left INFERIEUR, SUPERIEUR ;
 precedence left ADDITION, SOUSTRACTION ;
@@ -89,6 +89,7 @@ PROG    ::=     PROGRAMME  IDF  DEBUT  LDECL:ld  LINST:li  FIN
                 {: RESULT = li ; :}
                 ;
 
+
 LINST   ::=     LINST:li  INST:i
                 {: ((BlocDInstructions)li).ajouter(i) ;
                    RESULT = li ; :}
@@ -98,6 +99,7 @@ LINST   ::=     LINST:li  INST:i
                    b.ajouter(i) ;
                    RESULT = b ; :}
                 ;
+
 
 INST    ::=     ECRIRE EXP:e POINTVIRGULE
                 {: RESULT = new Ecrire(e, eleft + 1) ; :}
@@ -117,6 +119,23 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
                 TANTQUE EXP:e REPETER LINST:li FINTANTQUE
                 {: RESULT = new TantQue(e, li, eleft + 1) ; :}
                 ;
+
+
+LDECL   ::=     LDECL:ld  DECL:d
+                {: ((BlocDInstructions)ld).ajouter(d) ;
+                   RESULT = ld ; :}
+        |
+                DECL:d
+                {: BlocDInstructions b = new BlocDInstructions(dleft + 1) ;
+                   b.ajouter(d) ;
+                   RESULT = b ; :}
+                ;
+
+
+DECL   ::=      ENTIER IDF:i POINTVIRGULE
+                {: TDS.getInstance().ajouter(new Variable(i), new Symbole(TDS.getInstance().getTailleZoneVariable()), ileft + 1) ; :}
+                ;
+
     
 EXP    ::=      CSTENTIERE:c
                 {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
@@ -130,54 +149,36 @@ EXP    ::=      CSTENTIERE:c
                 NON EXP:e
                 {: RESULT = new ExpressionNon(e, eleft + 1) ; :}
         |
-                EXP:e1 OPER:o EXP:e2
-                {: RESULT = new OperationBinaire(e1, o, e2, e1left + 1) ; :}
-        |
                 PARENTHESEGAUCHE EXP:e PARENTHESEDROITE
                 {: RESULT = new ExpressionParenthese(e, eleft + 1) ; :}
-                ;
-
-LDECL   ::=     LDECL:ld  DECL:d
-                {: ((BlocDInstructions)ld).ajouter(d) ;
-                   RESULT = ld ; :}
         |
-                DECL:d
-                {: BlocDInstructions b = new BlocDInstructions(dleft + 1) ;
-                   b.ajouter(d) ;
-                   RESULT = b ; :}
-                ;
-
-DECL   ::=      ENTIER IDF:i POINTVIRGULE
-                {: TDS.getInstance().ajouter(new Variable(i), new Symbole(TDS.getInstance().getTailleZoneVariable()), ileft + 1) ; :}
-                ;
-
-OPER   ::=      ADDITION:a
-                {: RESULT = new Addition(aleft + 1) ; :}
-       |
-                SOUSTRACTION:s
-                {: RESULT = new Soustraction(sleft + 1) ; :}
-       |
-                MULTIPLICATION:m
-                {: RESULT = new Multiplication(mleft + 1) ; :}
-       |
-                DIVISION:d
-                {: RESULT = new Division(dleft + 1) ; :}
-       |
-                INFERIEUR:i
-                {: RESULT = new Inferieur(ileft + 1) ; :}
-       |
-                SUPERIEUR:s
-                {: RESULT = new Superieur(sleft + 1) ; :}
-       |
-                EGAL:e
-                {: RESULT = new Egal(eleft + 1) ; :}
-       |
-                DIFFERENT:d
-                {: RESULT = new Different(dleft + 1) ; :}
-       |
-                ET:e
-                {: RESULT = new Et(eleft + 1) ; :}
-       |
-                OU:o
-                {: RESULT = new Ou(oleft + 1) ; :}
+                EXP:e1 ADDITION:a EXP:e2
+                {: RESULT = new OperationBinaire(e1, new Addition(aleft + 1), e2, e1left + 1) ; :}
+        |
+                EXP:e1 SOUSTRACTION:s EXP:e2
+                {: RESULT = new OperationBinaire(e1, new Soustraction(sleft + 1), e2, e1left + 1) ; :}
+        |
+                EXP:e1 MULTIPLICATION:m EXP:e2
+                {: RESULT = new OperationBinaire(e1, new Multiplication(mleft + 1), e2, e1left + 1) ; :}
+        |
+                EXP:e1 DIVISION:d EXP:e2
+                {: RESULT = new OperationBinaire(e1, new Division(dleft + 1), e2, e1left + 1) ; :}
+        |
+                EXP:e1 INFERIEUR:i EXP:e2
+                {: RESULT = new OperationBinaire(e1, new Inferieur(ileft + 1), e2, e1left + 1) ; :}
+        |
+                EXP:e1 SUPERIEUR:s EXP:e2
+                {: RESULT = new OperationBinaire(e1, new Superieur(sleft + 1), e2, e1left + 1) ; :}
+        |
+                EXP:e1 EGAL:e EXP:e2
+                {: RESULT = new OperationBinaire(e1, new Egal(eleft + 1), e2, e1left + 1) ; :}
+        |
+                EXP:e1 DIFFERENT:d EXP:e2
+                {: RESULT = new OperationBinaire(e1, new Different(dleft + 1), e2, e1left + 1) ; :}
+        |
+                EXP:e1 ET:e EXP:e2
+                {: RESULT = new OperationBinaire(e1, new Et(eleft + 1), e2, e1left + 1) ; :}
+        |
+                EXP:e1 OU:o EXP:e2
+                {: RESULT = new OperationBinaire(e1, new Ou(oleft + 1), e2, e1left + 1) ; :}
                 ;

@@ -36,11 +36,16 @@ public class TantQue extends Instruction {
         mips.append("\tTantQue" + numTantque + " : #Tantque" + numTantque + "\n");
 
         mips.append(condition.toMIPS());
+
+        mips.append("\tbeq $v0, 0");
+
         mips.append(" FinTantQue" + numTantque + " #Aller a fintantque" + numTantque + "\n\n");
 
         TDS.getInstance().setBlocPrincipal(false);
 
         mips.append(instructions.toMIPS());
+
+        mips.append("\tbeq $v0, 0");
 
         mips.append("\tb TantQue" + numTantque + " #Aller a tantque" + numTantque + "\n");
 

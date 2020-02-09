@@ -20,7 +20,7 @@ public class Inferieur extends OperationResultBooleen {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
         mips.append("\t#Inferieur $t8 < $v0\n");
-        mips.append("\tbge $t8, $v0");
+        mips.append("\tslt $v0, $t8, $v0\n");
         return mips.toString();
     }
 }

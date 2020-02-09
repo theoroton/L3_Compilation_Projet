@@ -20,7 +20,7 @@ public class Egal extends OperationMemeType {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
         mips.append("\t#Egal $t8 == $v0\n");
-        mips.append("\tbne $t8, $v0");
+        mips.append("\tseq $v0, $t8, $v0\n");
         return mips.toString();
     }
 }

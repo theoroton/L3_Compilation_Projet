@@ -41,6 +41,8 @@ public class Si extends Instruction {
 
         mips.append(condition.toMIPS());
 
+        mips.append("\tbeq $v0, 0");
+
         if (instructions_Sinon != null) {
             mips.append(" Sinon" + numSi + " #Aller a sinon" + numSi + "\n\n");
         } else {

@@ -20,7 +20,7 @@ public class Superieur extends OperationResultBooleen {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
         mips.append("\t#Superieur $t8 > $v0\n");
-        mips.append("\tble $t8, $v0");
+        mips.append("\tsgt $v0, $t8, $v0\n");
         return mips.toString();
     }
 }

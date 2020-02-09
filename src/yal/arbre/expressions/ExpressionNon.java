@@ -26,6 +26,9 @@ public class ExpressionNon extends Expression {
 
     @Override
     public String toMIPS() {
-        return null;
+        StringBuffer mips = new StringBuffer();
+        mips.append(expression.toMIPS() + "\n");
+        mips.append("\tnot $v0, $v0\n");
+        return mips.toString();
     }
 }

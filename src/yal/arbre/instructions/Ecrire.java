@@ -19,8 +19,8 @@ public class Ecrire extends Instruction {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
+        mips.append(exp.toMIPS() + "\n");
         mips.append("\t#Ecrire\n");
-        mips.append(exp.toMIPS());
         mips.append("\tmove $a0, $v0\n");
         mips.append("\tli $v0, 1\n");
         mips.append("\tsyscall\n");

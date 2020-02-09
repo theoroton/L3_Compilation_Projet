@@ -21,6 +21,9 @@ public class ExpressionNegative extends Expression {
 
     @Override
     public String toMIPS() {
-        return null;
+        StringBuffer mips = new StringBuffer();
+        mips.append(expression.toMIPS());
+        mips.append("\tneg $v0, $v0\n");
+        return mips.toString();
     }
 }

@@ -49,7 +49,7 @@ public class Si extends Instruction {
             mips.append(" FinSi" + numSi + " #Aller a finsi" + numSi + "\n\n");
         }
 
-        TDS.getInstance().setBlocPrincipal(false);
+        TDS.getInstance().plusNiveau();
 
         mips.append(instructions_Si.toMIPS());
         mips.append("\tb FinSi" + numSi + " #Aller a finsi" + numSi + "\n\n");
@@ -59,7 +59,7 @@ public class Si extends Instruction {
             mips.append(instructions_Sinon.toMIPS());
         }
 
-        TDS.getInstance().setBlocPrincipal(true);
+        TDS.getInstance().moinsNiveau();
 
         mips.append("\tFinSi" + numSi + " : #Finsi" + numSi + "\n");
         return mips.toString();

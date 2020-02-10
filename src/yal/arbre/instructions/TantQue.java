@@ -41,13 +41,13 @@ public class TantQue extends Instruction {
 
         mips.append(" FinTantQue" + numTantque + " #Aller a fintantque" + numTantque + "\n\n");
 
-        TDS.getInstance().setBlocPrincipal(false);
+        TDS.getInstance().plusNiveau();
 
         mips.append(instructions.toMIPS());
 
         mips.append("\tb TantQue" + numTantque + " #Aller a tantque" + numTantque + "\n");
 
-        TDS.getInstance().setBlocPrincipal(true);
+        TDS.getInstance().moinsNiveau();
 
         mips.append("\tFinTantQue" + numTantque + " : #Fintantque" + numTantque + "\n");
         return mips.toString();

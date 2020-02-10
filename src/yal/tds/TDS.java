@@ -13,7 +13,7 @@ public class TDS {
     private static TDS instance = new TDS();
     private int numSi;
     private int numTantque;
-    private boolean blocPrincipal;
+    private int blocPrincipal;
 
     public TDS(){
         table = new HashMap<Entree,Symbole>();
@@ -21,7 +21,7 @@ public class TDS {
         exceptions_sem = new ArrayList<AnalyseSemantiqueException>();
         numSi = 0;
         numTantque = 0;
-        blocPrincipal = true;
+        blocPrincipal = 0;
     }
 
     public void ajouter(Entree e,Symbole s,int noLigne){
@@ -78,10 +78,14 @@ public class TDS {
     }
 
     public boolean isBlocPrincipal() {
-        return blocPrincipal;
+        return blocPrincipal == 0;
     }
 
-    public void setBlocPrincipal(boolean bloc){
-        blocPrincipal = bloc;
+    public void plusNiveau(){
+        blocPrincipal++;
+    }
+
+    public void moinsNiveau(){
+        blocPrincipal--;
     }
 }

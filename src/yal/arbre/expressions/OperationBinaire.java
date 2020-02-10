@@ -16,7 +16,6 @@ public class OperationBinaire extends Expression {
         expGauche = e1;
         expDroite = e2;
         operation = op;
-        System.out.println(op);
     }
 
     @Override

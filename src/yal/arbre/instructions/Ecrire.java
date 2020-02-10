@@ -24,7 +24,7 @@ public class Ecrire extends Instruction {
         mips.append(exp.toMIPS() + "\n");
 
         if (exp.type().equals("int")){
-            mips.append("\t#Ecrire\n");
+            mips.append("\t#Ecrire entier\n");
             mips.append("\tmove $a0, $v0\n");
             mips.append("\tli $v0, 1\n");
             mips.append("\tsyscall\n");
@@ -37,6 +37,7 @@ public class Ecrire extends Instruction {
             mips.append("\tsyscall\n");
 
         } else {
+            mips.append("\t#Ecrire booleen\n");
             mips.append("\tjal ecrireBooleen\n");
         }
 

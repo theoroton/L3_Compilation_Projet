@@ -116,6 +116,9 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
                 SI EXP:e ALORS LINST:li1 SINON LINST:li2 FINSI
                 {: RESULT = new Si(e, li1, li2, eleft + 1) ; :}
         |
+                SI EXP:e ALORS SINON LINST:li FINSI
+                {: RESULT = new Si(e, null, li, eleft + 1) ; :}
+        |
                 TANTQUE EXP:e REPETER LINST:li FINTANTQUE
                 {: RESULT = new TantQue(e, li, eleft + 1) ; :}
                 ;

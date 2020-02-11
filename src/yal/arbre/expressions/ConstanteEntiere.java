@@ -9,6 +9,7 @@ public class ConstanteEntiere extends Constante {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
+        mips.append("\t#Constante entiere\n");
         mips.append("\tli $v0, " + cste + "\n");
         return mips.toString();
     }

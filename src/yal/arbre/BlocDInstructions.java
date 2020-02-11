@@ -70,6 +70,7 @@ public class BlocDInstructions extends ArbreAbstrait {
             mips.append("newLine: .asciiz \"\\n\"\n");
             mips.append("vrai: .asciiz \"Vrai\\n\"\n");
             mips.append("faux: .asciiz \"Faux\\n\"\n");
+            mips.append("div0: .asciiz \"ERREUR : la division par 0 est interdite\\n\"\n");
             mips.append("\n");
 
             mips.append(".text\n");
@@ -82,7 +83,6 @@ public class BlocDInstructions extends ArbreAbstrait {
                 mips.append("\taddi $sp, $sp, "+ taille + "\n\n");
             }
         }
-
 
         for (ArbreAbstrait a : programme){
             mips.append(a.toMIPS()+"\n");
@@ -108,7 +108,14 @@ public class BlocDInstructions extends ArbreAbstrait {
             mips.append("\tsyscall\n\n");
 
             mips.append("finEcrireBooleen :\n");
-            mips.append("\tjr $ra\n");
+            mips.append("\tjr $ra\n\n");
+
+            mips.append("#Division par 0\n");
+            mips.append("erreurDiv0 :\n");
+            mips.append("\tli $v0, 4\n");
+            mips.append("\tla $a0, div0\n");
+            mips.append("\tsyscall\n");
+            mips.append("\tb end\n");
         }
 
         return mips.toString();

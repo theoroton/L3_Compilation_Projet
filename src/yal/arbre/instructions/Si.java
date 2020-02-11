@@ -26,7 +26,10 @@ public class Si extends Instruction {
             throw new AnalyseSemantiqueException(noLigne, "La condition n'est pas un booléen");
         }
 
-        instructions_Si.verifier();
+        if (instructions_Si != null){
+            instructions_Si.verifier();
+        }
+
 
         if (instructions_Sinon != null) {
             instructions_Sinon.verifier();
@@ -51,7 +54,10 @@ public class Si extends Instruction {
 
         TDS.getInstance().plusNiveau();
 
-        mips.append(instructions_Si.toMIPS());
+        if (instructions_Si != null){
+            mips.append(instructions_Si.toMIPS());
+        }
+
         mips.append("\tb FinSi" + numSi + " #Aller a finsi" + numSi + "\n\n");
 
         if (instructions_Sinon != null) {

@@ -25,6 +25,7 @@ public class IDF extends Expression {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
+        mips.append("\t#Variable entiere\n");
         mips.append("\tlw $v0, " + TDS.getInstance().identifier(new Variable(nom)).getDeplacement()+"($s7)\n");
         return mips.toString();
     }

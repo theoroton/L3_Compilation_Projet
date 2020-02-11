@@ -1,5 +1,7 @@
 package yal.arbre.expressions;
 
+import yal.exceptions.AnalyseSemantiqueException;
+
 public class ExpressionNegative extends Expression {
 
     protected Expression expression;
@@ -16,7 +18,10 @@ public class ExpressionNegative extends Expression {
 
     @Override
     public void verifier() {
-
+        expression.verifier();
+        if (!(expression.type().equals("int"))){
+            throw new AnalyseSemantiqueException(noLigne, expression + " : l'expression n'est pas un entier");
+        }
     }
 
     @Override

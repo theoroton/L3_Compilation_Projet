@@ -43,6 +43,7 @@ comment = [/]{2}.*
 %%
 
 "programme"            { return symbol(CodesLexicaux.PROGRAMME); }
+"fonction"             { return symbol(CodesLexicaux.FONCTION); }
 "debut"                { return symbol(CodesLexicaux.DEBUT); }
 "fin"              	   { return symbol(CodesLexicaux.FIN); }
 

@@ -60,7 +60,7 @@ parser code {:
 
 terminal Symbol    PROGRAMME, DEBUT, FIN, POINTVIRGULE, ECRIRE, LIRE, ENTIER, AFFECT, SI, ALORS, SINON, FINSI,
                    TANTQUE, REPETER, FINTANTQUE, ADDITION, SOUSTRACTION, MULTIPLICATION, DIVISION, NON, INFERIEUR,
-                   SUPERIEUR, PARENTHESEGAUCHE, PARENTHESEDROITE, EGAL, DIFFERENT, ET, OU ;
+                   SUPERIEUR, PARENTHESEGAUCHE, PARENTHESEDROITE, EGAL, DIFFERENT, ET, OU, FONCTION ;
 terminal String    IDF, CSTENTIERE ;
    
 /* Non terminals used in the grammar section.  */
@@ -181,4 +181,8 @@ EXP    ::=      CSTENTIERE:c
         |
                 EXP:e1 OU:o EXP:e2
                 {: RESULT = new OperationBinaire(e1, new Ou(oleft + 1), e2, e1left + 1) ; :}
+                ;
+
+DECL_FONCTION   ::= FONCTION IDF:i DEBUT LINST:li FIN
+                {: RESULT = li ; :}
                 ;

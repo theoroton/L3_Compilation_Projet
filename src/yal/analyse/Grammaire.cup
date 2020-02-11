@@ -184,5 +184,5 @@ EXP    ::=      CSTENTIERE:c
                 ;
 
 DECL_FONCTION   ::= FONCTION IDF:i DEBUT LINST:li FIN
-                {: RESULT = li ; :}
+                {: RESULT = new Fonction(li, eleft+1) ; :}
                 ;

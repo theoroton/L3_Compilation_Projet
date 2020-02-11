@@ -13,6 +13,7 @@ public class TDS {
     private static TDS instance = new TDS();
     private int numSi;
     private int numTantque;
+    private int numFonction;
     private int blocPrincipal;
 
     public TDS(){
@@ -21,6 +22,7 @@ public class TDS {
         exceptions_sem = new ArrayList<AnalyseSemantiqueException>();
         numSi = 0;
         numTantque = 0;
+        numFonction = 0;
         blocPrincipal = 0;
     }
 
@@ -75,6 +77,11 @@ public class TDS {
     public int getNumTantque(){
         numTantque++;
         return numTantque;
+    }
+
+    public int getNumFonction(){
+        numFonction++;
+        return numFonction;
     }
 
     public boolean isBlocPrincipal() {

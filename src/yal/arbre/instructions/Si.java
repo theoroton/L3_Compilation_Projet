@@ -3,6 +3,7 @@ package yal.arbre.instructions;
 import yal.arbre.ArbreAbstrait;
 import yal.arbre.expressions.Expression;
 import yal.exceptions.AnalyseSemantiqueException;
+import yal.factories.NumFactory;
 import yal.tds.TDS;
 
 public class Si extends Instruction {
@@ -38,7 +39,7 @@ public class Si extends Instruction {
 
     @Override
     public String toMIPS() {
-        int numSi = TDS.getInstance().getNumSi();
+        int numSi = NumFactory.getInstance().getNumSi();
         StringBuffer mips = new StringBuffer();
         mips.append("\tSi" + numSi + " : #Si" + numSi + "\n");
 
@@ -52,8 +53,6 @@ public class Si extends Instruction {
             mips.append(" FinSi" + numSi + " #Aller a finsi" + numSi + "\n\n");
         }
 
-        TDS.getInstance().plusNiveau();
-
         if (instructions_Si != null){
             mips.append(instructions_Si.toMIPS());
         }
@@ -64,8 +63,6 @@ public class Si extends Instruction {
             mips.append("\tSinon" + numSi + " : #Sinon" + numSi + "\n");
             mips.append(instructions_Sinon.toMIPS());
         }
-
-        TDS.getInstance().moinsNiveau();
 
         mips.append("\tFinSi" + numSi + " : #Finsi" + numSi + "\n");
         return mips.toString();

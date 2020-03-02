@@ -60,7 +60,7 @@ parser code {:
 
 terminal Symbol    PROGRAMME, DEBUT, FIN, POINTVIRGULE, ECRIRE, LIRE, ENTIER, AFFECT, SI, ALORS, SINON, FINSI,
                    TANTQUE, REPETER, FINTANTQUE, ADDITION, SOUSTRACTION, MULTIPLICATION, DIVISION, NON, INFERIEUR,
-                   SUPERIEUR, PARENTHESEGAUCHE, PARENTHESEDROITE, EGAL, DIFFERENT, ET, OU, FONCTION ;
+                   SUPERIEUR, PARENTHESEGAUCHE, PARENTHESEDROITE, EGAL, DIFFERENT, ET, OU, FONCTION, RETOURNE ;
 terminal String    IDF, CSTENTIERE ;
    
 /* Non terminals used in the grammar section.  */
@@ -83,10 +83,10 @@ precedence left PARENTHESEGAUCHE, PARENTHESEDROITE ;
 start with PROG ;
 
 PROG    ::=     PROGRAMME  IDF  DEBUT  LDECL:ld  LINST:li  FIN
-                {: RESULT = li ; :}
+                {: RESULT = new Programme_Principal(li.getNoLigne(), (BlocDInstructions)li) ; :}
         |
                 PROGRAMME IDF DEBUT LINST:li FIN
-                {: RESULT = li ; :}
+                {: RESULT = new Programme_Principal(li.getNoLigne(), (BlocDInstructions)li) ; :}
                 ;
 
 
@@ -121,6 +121,9 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
         |
                 TANTQUE EXP:e REPETER LINST:li FINTANTQUE
                 {: RESULT = new TantQue(e, li, eleft + 1) ; :}
+        |
+                RETOURNE EXP:e POINTVIRGULE
+                {: RESULT = new Retourne(e, eleft + 1) ; :}
                 ;
 
 
@@ -136,7 +139,12 @@ LDECL   ::=     LDECL:ld  DECL:d
 
 
 DECL   ::=      ENTIER IDF:i POINTVIRGULE
-                {: TDS.getInstance().ajouter(new Variable(i), new Symbole(TDS.getInstance().getTailleZoneVariable()), ileft + 1) ; :}
+                {: TDS.getInstance().ajouter(new Variable(i), new SymboleVariable(TDS.getInstance().getTailleZoneVariable()), ileft + 1) ; :}
+        |
+                FONCTION IDF:i PARENTHESEGAUCHE PARENTHESEDROITE DEBUT LINST:li FIN
+                {: Decl_Fonction f = new Decl_Fonction(li, i, ileft + 1) ;
+                   TDS.getInstance().ajouter(new Fonction(i), new SymboleFonction(0,TDS.getInstance().getFonctions().size()), ileft + 1) ;
+                   TDS.getInstance().addFonction(f); :}
                 ;
 
     
@@ -154,6 +162,9 @@ EXP    ::=      CSTENTIERE:c
         |
                 PARENTHESEGAUCHE EXP:e PARENTHESEDROITE
                 {: RESULT = new ExpressionParenthese(e, eleft + 1) ; :}
+        |
+                IDF:i PARENTHESEGAUCHE PARENTHESEDROITE
+                {: RESULT = new ExpressionFonction(i, ileft + 1) ; :}
         |
                 EXP:e1 ADDITION:a EXP:e2
                 {: RESULT = new OperationBinaire(e1, new Addition(aleft + 1), e2, e1left + 1) ; :}
@@ -184,8 +195,4 @@ EXP    ::=      CSTENTIERE:c
         |
                 EXP:e1 OU:o EXP:e2
                 {: RESULT = new OperationBinaire(e1, new Ou(oleft + 1), e2, e1left + 1) ; :}
-                ;
-
-DECL_FONCTION   ::= FONCTION IDF:i DEBUT LINST:li FIN
-                {: RESULT = new Fonction(li, eleft+1) ; :}
                 ;

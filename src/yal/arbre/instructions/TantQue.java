@@ -3,6 +3,7 @@ package yal.arbre.instructions;
 import yal.arbre.ArbreAbstrait;
 import yal.arbre.expressions.Expression;
 import yal.exceptions.AnalyseSemantiqueException;
+import yal.factories.NumFactory;
 import yal.tds.TDS;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class TantQue extends Instruction {
 
     @Override
     public String toMIPS() {
-        int numTantque = TDS.getInstance().getNumTantque();
+        int numTantque = NumFactory.getInstance().getNumTantque();
         StringBuffer mips = new StringBuffer();
         mips.append("\tTantQue" + numTantque + " : #Tantque" + numTantque + "\n");
 
@@ -41,13 +42,9 @@ public class TantQue extends Instruction {
 
         mips.append(" FinTantQue" + numTantque + " #Aller a fintantque" + numTantque + "\n\n");
 
-        TDS.getInstance().plusNiveau();
-
         mips.append(instructions.toMIPS());
 
         mips.append("\tb TantQue" + numTantque + " #Aller a tantque" + numTantque + "\n");
-
-        TDS.getInstance().moinsNiveau();
 
         mips.append("\tFinTantQue" + numTantque + " : #Fintantque" + numTantque + "\n");
         return mips.toString();

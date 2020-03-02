@@ -50,6 +50,8 @@ comment = [/]{2}.*
 "ecrire"               { return symbol(CodesLexicaux.ECRIRE); }
 "lire"                 { return symbol(CodesLexicaux.LIRE); }
 
+"retourne"             { return symbol(CodesLexicaux.RETOURNE); }
+
 "entier"               { return symbol(CodesLexicaux.ENTIER); }
 
 "si"                   { return symbol(CodesLexicaux.SI); }

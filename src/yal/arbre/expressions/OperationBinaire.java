@@ -3,6 +3,7 @@ package yal.arbre.expressions;
 import yal.arbre.operations.Division;
 import yal.arbre.operations.Operation;
 import yal.exceptions.AnalyseSemantiqueException;
+import yal.factories.BoolFactory;
 
 public class OperationBinaire extends Expression {
 
@@ -24,8 +25,12 @@ public class OperationBinaire extends Expression {
         expDroite.verifier();
         operation.operandes(expGauche, expDroite);
 
-        if ((operation.getClass() == Division.class) && (expDroite.toString().equals("0"))){
-            throw new AnalyseSemantiqueException(noLigne, "La division par 0 est interdite");
+        if ((operation.getClass() == Division.class)){
+            if ((expDroite.toString().equals("0"))){
+                throw new AnalyseSemantiqueException(noLigne, "La division par 0 est interdite");
+            } else {
+                BoolFactory.getInstance().ecrireDiv();
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 package yal.tds;
 
-public class Symbole {
+public abstract class Symbole {
 
     protected int deplacement;
 
@@ -11,4 +11,6 @@ public class Symbole {
     public int getDeplacement(){
         return deplacement;
     }
+
+    public abstract int getIndiceFonction();
 }

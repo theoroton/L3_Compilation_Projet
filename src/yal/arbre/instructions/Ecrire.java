@@ -1,7 +1,7 @@
 package yal.arbre.instructions;
 
 import yal.arbre.expressions.Expression;
-import yal.tds.TDS;
+import yal.factories.BoolFactory;
 
 public class Ecrire extends Instruction {
 
@@ -37,6 +37,7 @@ public class Ecrire extends Instruction {
             mips.append("\tsyscall\n");
 
         } else {
+            BoolFactory.getInstance().ecrireBooleen();
             mips.append("\t#Ecrire booleen\n");
             mips.append("\tjal ecrireBooleen\n");
         }

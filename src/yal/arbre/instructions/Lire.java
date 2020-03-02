@@ -15,6 +15,7 @@ public class Lire extends Instruction {
 
     @Override
     public void verifier() {
+        System.out.println(idf);
         idf.verifier();
     }
 

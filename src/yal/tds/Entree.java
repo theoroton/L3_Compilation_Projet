@@ -12,5 +12,4 @@ public abstract class Entree {
         return nom;
     }
     public abstract int getTaille();
-
 }

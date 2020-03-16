@@ -7,9 +7,7 @@ public class SymboleFonction extends Symbole {
     public SymboleFonction(int d, int s) {
         super(d);
         indiceFonction = s;
+        deplacement = 0;
     }
 
-    public int getIndiceFonction() {
-        return indiceFonction;
-    }
 }

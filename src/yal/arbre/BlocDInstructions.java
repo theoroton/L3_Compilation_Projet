@@ -1,14 +1,9 @@
 package yal.arbre;
 
 import yal.arbre.instructions.Retourne;
-import yal.exceptions.AnalyseSemantiqueException;
-import yal.factories.BoolFactory;
-import yal.tds.TDS;
-import yal.tds.Variable;
+import yal.arbre.instructions.Si;
 
 import java.util.ArrayList;
-
-import static java.lang.System.exit;
 
 /**
  * 21 novembre 2018
@@ -42,9 +37,6 @@ public class BlocDInstructions extends ArbreAbstrait {
     public void verifier() {
         for (ArbreAbstrait a : programme){
             a.verifier();
-            if (a.getClass() == Retourne.class && BoolFactory.getInstance().isDansFonction()) {
-                BoolFactory.getInstance().setYaRetourne(true);
-            }
         }
     }
     
@@ -59,4 +51,36 @@ public class BlocDInstructions extends ArbreAbstrait {
         return mips.toString();
     }
 
+    @Override
+    public boolean verifierRetourne() {
+        boolean yaretourne = false;
+        ArrayList<Si> si = new ArrayList<>();
+        for (ArbreAbstrait a : programme){
+
+            if (a.getClass() == Si.class){
+                si.add((Si) a);
+            } else if (a.getClass() == Retourne.class) {
+                yaretourne = true;
+            }
+
+        }
+
+        if (!yaretourne && si.size() > 0){
+            int nb = 0;
+            for (Si s : si){
+                yaretourne = s.verifierRetourne();
+                if (yaretourne){
+                    nb++;
+                }
+            }
+
+            if (nb == si.size()){
+                yaretourne = true;
+            } else {
+                yaretourne = false;
+            }
+        }
+
+        return yaretourne;
+    }
 }

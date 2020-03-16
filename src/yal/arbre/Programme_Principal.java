@@ -46,6 +46,8 @@ public class Programme_Principal extends BlocDInstructions {
             }
         }
 
+        //TDS.getInstance().afficher();
+
         if (!verif){
             exit(0);
         }
@@ -83,6 +85,7 @@ public class Programme_Principal extends BlocDInstructions {
         mips.append("main :\n");
 
         int taille = TDS.getInstance().getTailleZoneVariable();
+        taille -= 4;
         if (taille < 0){
             mips.append("\t#Reservation de l'espace\n");
             mips.append("\tmove $s7, $sp\n\n");

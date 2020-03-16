@@ -65,7 +65,7 @@ terminal String    IDF, CSTENTIERE ;
    
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST, INST, LDECL, DECL ;
+non terminal ArbreAbstrait PROG, LINST, INST, LDECL, DECL, LDECL_FONC, DECL_VAR, DEB ;
 non terminal Expression EXP ;
 
 precedence left OU ;
@@ -79,16 +79,19 @@ precedence left PARENTHESEGAUCHE, PARENTHESEDROITE ;
 
 
 /* ----------------------------Grammar Section-------------------- */
- 
+
 start with PROG ;
 
-PROG    ::=     PROGRAMME  IDF  DEBUT  LDECL:ld  LINST:li  FIN
+PROG    ::=     PROGRAMME  IDF  DEB  LDECL  LINST:li  FIN
                 {: RESULT = new Programme_Principal(li.getNoLigne(), (BlocDInstructions)li) ; :}
         |
-                PROGRAMME IDF DEBUT LINST:li FIN
+                PROGRAMME IDF DEB LINST:li FIN
                 {: RESULT = new Programme_Principal(li.getNoLigne(), (BlocDInstructions)li) ; :}
                 ;
 
+DEB ::=         DEBUT
+                {: TDS.getInstance().entreeBloc() ; :}
+                ;
 
 LINST   ::=     LINST:li  INST:i
                 {: ((BlocDInstructions)li).ajouter(i) ;
@@ -128,26 +131,41 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
 
 
 LDECL   ::=     LDECL:ld  DECL:d
-                {: ((BlocDInstructions)ld).ajouter(d) ;
-                   RESULT = ld ; :}
+                {: :}
         |
                 DECL:d
-                {: BlocDInstructions b = new BlocDInstructions(dleft + 1) ;
-                   b.ajouter(d) ;
-                   RESULT = b ; :}
+                {: :}
                 ;
 
 
-DECL   ::=      ENTIER IDF:i POINTVIRGULE
-                {: TDS.getInstance().ajouter(new Variable(i), new SymboleVariable(TDS.getInstance().getTailleZoneVariable()), ileft + 1) ; :}
+DECL   ::=      DECL_VAR
+                {: :}
         |
-                FONCTION IDF:i PARENTHESEGAUCHE PARENTHESEDROITE DEBUT LINST:li FIN
+                FONCTION IDF:i PARENTHESEGAUCHE PARENTHESEDROITE DEB LINST:li FIN
                 {: Decl_Fonction f = new Decl_Fonction(li, i, ileft + 1) ;
                    TDS.getInstance().ajouter(new Fonction(i), new SymboleFonction(0,TDS.getInstance().getFonctions().size()), ileft + 1) ;
-                   TDS.getInstance().addFonction(f); :}
+                   TDS.getInstance().addFonction(f) ;
+                   TDS.getInstance().sortieBloc() ; :}
+        |
+                FONCTION IDF:i PARENTHESEGAUCHE PARENTHESEDROITE DEB LDECL_FONC LINST:li FIN
+                {: Decl_Fonction f = new Decl_Fonction(li, i, ileft + 1) ;
+                   TDS.getInstance().ajouter(new Fonction(i), new SymboleFonction(0,TDS.getInstance().getFonctions().size()), ileft + 1) ;
+                   TDS.getInstance().addFonction(f) ;
+                   TDS.getInstance().sortieBloc() ; :}
                 ;
 
-    
+LDECL_FONC ::=  LDECL_FONC:ld DECL_VAR
+                {: :}
+        |
+                DECL_VAR
+                {: :}
+                ;
+
+DECL_VAR ::=    ENTIER IDF:i POINTVIRGULE
+                {: TDS.getInstance().ajouter(new Variable(i), new SymboleVariable(TDS.getInstance().getDeplacement()), ileft + 1) ; :}
+                ;
+
+
 EXP    ::=      CSTENTIERE:c
                 {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
         |

@@ -29,11 +29,11 @@ public class ExpressionFonction extends Expression {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
         mips.append("\t#Appel fonction : " + nomFonction + "\n");
-        mips.append("\tsw $ra, 0($sp)\n");
+        mips.append("\tsw $ra, ($sp)\n");
         mips.append("\tadd $sp, $sp, -4\n");
         mips.append("\tjal " + nomFonction + "\n");
         mips.append("\tadd $sp, $sp, 4\n");
-        mips.append("\tlw $ra, ($sp)\n");
+        mips.append("\tlw $ra, ($sp)\n\n");
 
         return mips.toString();
     }

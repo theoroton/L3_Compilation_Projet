@@ -3,7 +3,6 @@ package yal.arbre.instructions;
 import yal.arbre.expressions.Expression;
 import yal.exceptions.AnalyseSemantiqueException;
 import yal.factories.BoolFactory;
-import yal.tds.TDS;
 
 public class Retourne extends Instruction {
 
@@ -31,7 +30,10 @@ public class Retourne extends Instruction {
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
 
-        mips.append(expression.toMIPS());
+        mips.append(expression.toMIPS() + "\n");
+        mips.append("\t#Sortie fonction\n");
+        mips.append("\tadd $sp, $sp, 4\n");
+        mips.append("\tlw $s7, ($sp)\n\n");
         mips.append("\tjr $ra\n\n");
 
         return mips.toString();

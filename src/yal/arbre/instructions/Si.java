@@ -37,6 +37,29 @@ public class Si extends Instruction {
         }
     }
 
+    public boolean verifierRetourne(){
+        boolean yaRSi;
+        if (instructions_Si != null){
+            yaRSi = instructions_Si.verifierRetourne();
+        } else {
+            yaRSi = true;
+        }
+
+        boolean yaRSinon;
+        if (instructions_Sinon != null) {
+            yaRSinon = instructions_Sinon.verifierRetourne();
+        } else {
+            yaRSinon = true;
+        }
+
+        boolean yaretourne = yaRSi && yaRSinon;
+        if (!yaretourne){
+            throw new AnalyseSemantiqueException(noLigne, "Il n'y a pas d'instruction RETOURNE accesible dans toutes les branches du SI");
+        }
+
+        return yaretourne;
+    }
+
     @Override
     public String toMIPS() {
         int numSi = NumFactory.getInstance().getNumSi();

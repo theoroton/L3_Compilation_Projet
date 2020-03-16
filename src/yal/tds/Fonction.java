@@ -1,7 +1,5 @@
 package yal.tds;
 
-import yal.arbre.Decl_Fonction;
-
 public class Fonction extends Entree {
 
     protected int nbParams;

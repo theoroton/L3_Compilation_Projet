@@ -2,14 +2,18 @@ package yal.tds;
 
 public class Fonction extends Entree {
 
-    protected int nbParams;
+    int nbParams;
 
-    public Fonction(String n) {
+    public Fonction(String n, int nb) {
         super(n);
-        nbParams = 0;
+        nbParams = nb;
     }
 
     public int getTaille() {
         return 0;
+    }
+
+    public int getNbParams() {
+        return nbParams;
     }
 }

@@ -1,7 +1,5 @@
 package yal.arbre.operations;
 
-import yal.arbre.expressions.Expression;
-
 public class Soustraction extends OperationResultEntier {
 
     public Soustraction(int n) {

@@ -2,6 +2,7 @@ package yal.arbre.expressions;
 
 import yal.exceptions.AnalyseSemantiqueException;
 import yal.tds.Symbole;
+import yal.tds.SymboleVariable;
 import yal.tds.TDS;
 import yal.tds.Variable;
 
@@ -25,8 +26,18 @@ public class IDF extends Expression {
     @Override
     public String toMIPS() {
         StringBuffer mips = new StringBuffer();
+
+        Symbole s = TDS.getInstance().identifier(new Variable(nom));
+
+        String registre;
+        if (s.getClass() == SymboleVariable.class){
+            registre = "($s7)";
+        } else {
+            registre = "($s2)";
+        }
+
         mips.append("\t#Variable entiere\n");
-        mips.append("\tlw $v0, " + TDS.getInstance().identifier(new Variable(nom)).getDeplacement()+"($s7)\n");
+        mips.append("\tlw $v0, " + s.getDeplacement() + registre + "\n");
         return mips.toString();
     }
 

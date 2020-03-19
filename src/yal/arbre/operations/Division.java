@@ -1,7 +1,5 @@
 package yal.arbre.operations;
 
-import yal.arbre.expressions.Expression;
-
 public class Division extends OperationResultEntier {
 
     public Division(int n) {

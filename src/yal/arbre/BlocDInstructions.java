@@ -2,6 +2,7 @@ package yal.arbre;
 
 import yal.arbre.instructions.Retourne;
 import yal.arbre.instructions.Si;
+import yal.arbre.instructions.TantQue;
 
 import java.util.ArrayList;
 
@@ -55,10 +56,14 @@ public class BlocDInstructions extends ArbreAbstrait {
     public boolean verifierRetourne() {
         boolean yaretourne = false;
         ArrayList<Si> si = new ArrayList<>();
+        ArrayList<TantQue> tq = new ArrayList<>();
+
         for (ArbreAbstrait a : programme){
 
             if (a.getClass() == Si.class){
                 si.add((Si) a);
+            } else if (a.getClass() == TantQue.class){
+                tq.add((TantQue) a);
             } else if (a.getClass() == Retourne.class) {
                 yaretourne = true;
             }
@@ -75,6 +80,22 @@ public class BlocDInstructions extends ArbreAbstrait {
             }
 
             if (nb == si.size()){
+                yaretourne = true;
+            } else {
+                yaretourne = false;
+            }
+        }
+
+        if (!yaretourne && tq.size() > 0){
+            int nb = 0;
+            for (TantQue t : tq){
+                yaretourne = t.verifierRetourne();
+                if (yaretourne){
+                    nb++;
+                }
+            }
+
+            if (nb == tq.size()){
                 yaretourne = true;
             } else {
                 yaretourne = false;

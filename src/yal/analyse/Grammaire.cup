@@ -60,12 +60,13 @@ parser code {:
 
 terminal Symbol    PROGRAMME, DEBUT, FIN, POINTVIRGULE, ECRIRE, LIRE, ENTIER, AFFECT, SI, ALORS, SINON, FINSI,
                    TANTQUE, REPETER, FINTANTQUE, ADDITION, SOUSTRACTION, MULTIPLICATION, DIVISION, NON, INFERIEUR,
-                   SUPERIEUR, PARENTHESEGAUCHE, PARENTHESEDROITE, EGAL, DIFFERENT, ET, OU, FONCTION, RETOURNE ;
+                   SUPERIEUR, PARENTHESEGAUCHE, PARENTHESEDROITE, EGAL, DIFFERENT, ET, OU, FONCTION, RETOURNE,
+                   VIRGULE ;
 terminal String    IDF, CSTENTIERE ;
    
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST, INST, LDECL, DECL, LDECL_FONC, DECL_VAR, DEB ;
+non terminal ArbreAbstrait PROG, LINST, INST, LDECL, DECL, LDECL_FONC, DECL_VAR, PARAMETRES, PARAM, PAR_EFF, FONC ;
 non terminal Expression EXP ;
 
 precedence left OU ;
@@ -82,15 +83,11 @@ precedence left PARENTHESEGAUCHE, PARENTHESEDROITE ;
 
 start with PROG ;
 
-PROG    ::=     PROGRAMME  IDF  DEB  LDECL  LINST:li  FIN
+PROG    ::=     PROGRAMME  IDF  DEBUT  LDECL  LINST:li  FIN
                 {: RESULT = new Programme_Principal(li.getNoLigne(), (BlocDInstructions)li) ; :}
         |
-                PROGRAMME IDF DEB LINST:li FIN
+                PROGRAMME IDF DEBUT LINST:li FIN
                 {: RESULT = new Programme_Principal(li.getNoLigne(), (BlocDInstructions)li) ; :}
-                ;
-
-DEB ::=         DEBUT
-                {: TDS.getInstance().entreeBloc() ; :}
                 ;
 
 LINST   ::=     LINST:li  INST:i
@@ -141,17 +138,33 @@ LDECL   ::=     LDECL:ld  DECL:d
 DECL   ::=      DECL_VAR
                 {: :}
         |
-                FONCTION IDF:i PARENTHESEGAUCHE PARENTHESEDROITE DEB LINST:li FIN
-                {: Decl_Fonction f = new Decl_Fonction(li, i, ileft + 1) ;
-                   TDS.getInstance().ajouter(new Fonction(i), new SymboleFonction(0,TDS.getInstance().getFonctions().size()), ileft + 1) ;
+                FONC IDF:i PARENTHESEGAUCHE PARENTHESEDROITE DEBUT LINST:li FIN
+                {: Decl_Fonction f = new Decl_Fonction(li, i, ileft + 1, TDS.getInstance().getNbParamsCourant()) ;
+                   TDS.getInstance().ajouter(new Fonction(i,0), new SymboleFonction(0,TDS.getInstance().getFonctions().size()), ileft + 1) ;
                    TDS.getInstance().addFonction(f) ;
                    TDS.getInstance().sortieBloc() ; :}
         |
-                FONCTION IDF:i PARENTHESEGAUCHE PARENTHESEDROITE DEB LDECL_FONC LINST:li FIN
-                {: Decl_Fonction f = new Decl_Fonction(li, i, ileft + 1) ;
-                   TDS.getInstance().ajouter(new Fonction(i), new SymboleFonction(0,TDS.getInstance().getFonctions().size()), ileft + 1) ;
+                FONC IDF:i PARENTHESEGAUCHE PARENTHESEDROITE DEBUT LDECL_FONC LINST:li FIN
+                {: Decl_Fonction f = new Decl_Fonction(li, i, ileft + 1, TDS.getInstance().getNbParamsCourant()) ;
+                   TDS.getInstance().ajouter(new Fonction(i,0), new SymboleFonction(0,TDS.getInstance().getFonctions().size()), ileft + 1) ;
                    TDS.getInstance().addFonction(f) ;
                    TDS.getInstance().sortieBloc() ; :}
+        |
+                FONC IDF:i PARENTHESEGAUCHE PARAMETRES:p PARENTHESEDROITE DEBUT LINST:li FIN
+                 {: Decl_Fonction f = new Decl_Fonction(li, i, ileft + 1, TDS.getInstance().getNbParamsCourant()) ;
+                    TDS.getInstance().ajouter(new Fonction(i,TDS.getInstance().getNbParamsCourant()), new SymboleFonction(0,TDS.getInstance().getFonctions().size()), ileft + 1) ;
+                    TDS.getInstance().addFonction(f) ;
+                    TDS.getInstance().sortieBloc() ; :}
+        |
+                FONC IDF:i PARENTHESEGAUCHE PARAMETRES:p PARENTHESEDROITE DEBUT LDECL_FONC LINST:li FIN
+                {: Decl_Fonction f = new Decl_Fonction(li, i, ileft + 1, TDS.getInstance().getNbParamsCourant()) ;
+                   TDS.getInstance().ajouter(new Fonction(i,TDS.getInstance().getNbParamsCourant()), new SymboleFonction(0,TDS.getInstance().getFonctions().size()), ileft + 1) ;
+                   TDS.getInstance().addFonction(f) ;
+                   TDS.getInstance().sortieBloc() ; :}
+                ;
+
+FONC       ::=  FONCTION
+                {: TDS.getInstance().entreeBloc() ; :}
                 ;
 
 LDECL_FONC ::=  LDECL_FONC:ld DECL_VAR
@@ -165,6 +178,17 @@ DECL_VAR ::=    ENTIER IDF:i POINTVIRGULE
                 {: TDS.getInstance().ajouter(new Variable(i), new SymboleVariable(TDS.getInstance().getDeplacement()), ileft + 1) ; :}
                 ;
 
+PARAMETRES ::=  PARAMETRES:p POINTVIRGULE PARAM
+                {: :}
+        |
+                PARAM
+                {: :}
+                ;
+
+PARAM  ::=      ENTIER IDF:i
+                {: TDS.getInstance().ajouter(new Parametre(i), new SymboleParametre(TDS.getInstance().getDeplacementParametre()), ileft + 1) ;
+                   TDS.getInstance().addParam() ; :}
+                ;
 
 EXP    ::=      CSTENTIERE:c
                 {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
@@ -182,7 +206,10 @@ EXP    ::=      CSTENTIERE:c
                 {: RESULT = new ExpressionParenthese(e, eleft + 1) ; :}
         |
                 IDF:i PARENTHESEGAUCHE PARENTHESEDROITE
-                {: RESULT = new ExpressionFonction(i, ileft + 1) ; :}
+                {: RESULT = new ExpressionFonction(i, ileft + 1, null, TDS.getInstance().getNbParamsCourant()) ; :}
+        |
+                IDF:i PARENTHESEGAUCHE PAR_EFF:pe PARENTHESEDROITE
+                {: RESULT = new ExpressionFonction(i, ileft + 1, ((Parametres) pe), TDS.getInstance().getNbParamsCourant()) ; :}
         |
                 EXP:e1 ADDITION:a EXP:e2
                 {: RESULT = new OperationBinaire(e1, new Addition(aleft + 1), e2, e1left + 1) ; :}
@@ -213,4 +240,14 @@ EXP    ::=      CSTENTIERE:c
         |
                 EXP:e1 OU:o EXP:e2
                 {: RESULT = new OperationBinaire(e1, new Ou(oleft + 1), e2, e1left + 1) ; :}
+                ;
+
+PAR_EFF ::=     PAR_EFF:pe VIRGULE EXP:e
+                {: ((Parametres)pe).ajouter(e) ;
+                   RESULT = pe ; :}
+        |
+                EXP:e
+                {: Parametres p = new Parametres(eleft + 1) ;
+                   p.ajouter(e) ;
+                   RESULT = p ; :}
                 ;

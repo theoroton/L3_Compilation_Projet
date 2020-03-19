@@ -1,8 +1,6 @@
 package yal.arbre.instructions;
 
-import yal.arbre.expressions.Constante;
 import yal.arbre.expressions.Expression;
-import yal.arbre.expressions.IDF;
 import yal.exceptions.AnalyseSemantiqueException;
 import yal.tds.TDS;
 import yal.tds.Variable;

@@ -85,11 +85,11 @@ public class Programme_Principal extends BlocDInstructions {
         mips.append("main :\n");
 
         int taille = TDS.getInstance().getTailleZoneVariable();
-        taille -= 4;
+        taille -= 12;
         if (taille < 0){
             mips.append("\t#Reservation de l'espace\n");
-            mips.append("\tmove $s7, $sp\n\n");
-            mips.append("\taddi $sp, $sp, "+ taille + "\n\n");
+            mips.append("\tmove $s7, $sp\n");
+            mips.append("\taddi $sp, $sp, " + taille + "\n\n");
         }
 
         return mips.toString();

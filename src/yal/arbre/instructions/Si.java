@@ -4,7 +4,6 @@ import yal.arbre.ArbreAbstrait;
 import yal.arbre.expressions.Expression;
 import yal.exceptions.AnalyseSemantiqueException;
 import yal.factories.NumFactory;
-import yal.tds.TDS;
 
 public class Si extends Instruction {
 

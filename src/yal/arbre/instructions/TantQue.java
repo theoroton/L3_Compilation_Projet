@@ -4,9 +4,6 @@ import yal.arbre.ArbreAbstrait;
 import yal.arbre.expressions.Expression;
 import yal.exceptions.AnalyseSemantiqueException;
 import yal.factories.NumFactory;
-import yal.tds.TDS;
-
-import java.util.ArrayList;
 
 public class TantQue extends Instruction {
 
@@ -28,6 +25,15 @@ public class TantQue extends Instruction {
         }
 
         instructions.verifier();
+    }
+
+    public boolean verifierRetourne(){
+        boolean yaretourne = instructions.verifierRetourne();
+        if (!yaretourne){
+            throw new AnalyseSemantiqueException(noLigne, "Il n'y a pas d'instruction RETOURNE accesible dans toutes les branches du SI");
+        }
+
+        return yaretourne;
     }
 
     @Override

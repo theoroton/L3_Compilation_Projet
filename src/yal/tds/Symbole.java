@@ -15,7 +15,12 @@ public abstract class Symbole {
         if (getBloc() == 0){
             depl = deplacement;
         } else {
-            depl = TDS.getInstance().getTailleZoneVariable() + deplacement;
+            if (getClass() == SymboleVariable.class){
+                depl = TDS.getInstance().getTailleZoneVariable() + deplacement;
+            } else {
+                depl = deplacement;
+            }
+
         }
         return depl;
     }

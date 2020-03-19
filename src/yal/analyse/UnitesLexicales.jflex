@@ -82,6 +82,7 @@ comment = [/]{2}.*
 "et"                   { return symbol(CodesLexicaux.ET); }
 "ou"                   { return symbol(CodesLexicaux.OU); }
 
+","                    { return symbol(CodesLexicaux.VIRGULE); }
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
 "="                    { return symbol(CodesLexicaux.AFFECT); }
 

@@ -10,4 +10,5 @@ public abstract class Expression extends ArbreAbstrait {
 
     public abstract String type();
 
+    public int getIndice(){ return -1; }
 }

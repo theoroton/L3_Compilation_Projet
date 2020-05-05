@@ -10,11 +10,6 @@ public class ExpressionParenthese extends Expression {
     }
 
     @Override
-    public String type() {
-        return expression.type();
-    }
-
-    @Override
     public void verifier() {
         expression.verifier();
     }
@@ -24,5 +19,10 @@ public class ExpressionParenthese extends Expression {
         StringBuffer mips = new StringBuffer();
         mips.append(expression.toMIPS());
         return mips.toString();
+    }
+
+    @Override
+    public String type() {
+        return expression.type();
     }
 }

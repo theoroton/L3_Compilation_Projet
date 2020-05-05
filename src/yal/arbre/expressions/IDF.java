@@ -1,10 +1,7 @@
 package yal.arbre.expressions;
 
 import yal.exceptions.AnalyseSemantiqueException;
-import yal.tds.Symbole;
-import yal.tds.SymboleVariable;
-import yal.tds.TDS;
-import yal.tds.Variable;
+import yal.tds.*;
 
 public class IDF extends Expression {
 
@@ -30,8 +27,10 @@ public class IDF extends Expression {
         Symbole s = TDS.getInstance().identifier(new Variable(nom));
 
         String registre;
-        if (s.getClass() == SymboleVariable.class){
+        if (s.getClass() == SymboleVariablePrincipal.class){
             registre = "($s7)";
+        } else if (s.getClass() == SymboleVariableFonction.class){
+            registre = "($s3)";
         } else {
             registre = "($s2)";
         }
@@ -45,7 +44,6 @@ public class IDF extends Expression {
         return nom;
     }
 
-    @Override
     public String type() {
         return "int";
     }

@@ -12,11 +12,6 @@ public class ExpressionNegative extends Expression {
     }
 
     @Override
-    public String type() {
-        return "int";
-    }
-
-    @Override
     public void verifier() {
         expression.verifier();
         if (!(expression.type().equals("int"))){
@@ -31,5 +26,10 @@ public class ExpressionNegative extends Expression {
         mips.append("\t#Expression - EXP\n");
         mips.append("\tneg $v0, $v0\n");
         return mips.toString();
+    }
+
+    @Override
+    public String type() {
+        return "int";
     }
 }

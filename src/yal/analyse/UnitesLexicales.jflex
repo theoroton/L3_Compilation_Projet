@@ -86,6 +86,11 @@ comment = [/]{2}.*
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
 "="                    { return symbol(CodesLexicaux.AFFECT); }
 
+"["                    { return symbol(CodesLexicaux.CROCHETGAUCHE); }
+"]"                    { return symbol(CodesLexicaux.CROCHETDROITE); }
+"."                    { return symbol(CodesLexicaux.POINT); }
+"longueur"             { return symbol(CodesLexicaux.LONGUEUR); }
+
 {csteE}      	       { return symbol(CodesLexicaux.CSTENTIERE, yytext()); }
 
 {idf}      	           { return symbol(CodesLexicaux.IDF, yytext()); }

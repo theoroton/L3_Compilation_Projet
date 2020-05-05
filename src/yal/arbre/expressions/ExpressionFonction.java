@@ -48,6 +48,14 @@ public class ExpressionFonction extends Expression {
 
         mips.append("\t#Appel fonction : " + nomF + "\n");
 
+        int vars = TDS.getInstance().getDeplFonction();
+
+        if (vars > 0 && TDS.getInstance().getNumBlocCourant() != 0){
+            mips.append("\tsw $s3, ($sp)\n");
+            mips.append("\tadd $sp, $sp, -4\n");
+            mips.append("\tadd $s3, $s3, " + vars + "\n\n");
+        }
+
         int add = 0;
         int sub = 0;
         if (nbParams > 0){
@@ -79,8 +87,11 @@ public class ExpressionFonction extends Expression {
             }
         }
 
-
-
+        if (vars > 0 && TDS.getInstance().getNumBlocCourant() != 0){
+            mips.append("\tadd $s3, $s3, " + -vars + "\n");
+            mips.append("\tadd $sp, $sp, 4\n");
+            mips.append("\tlw $s3, ($sp)\n\n");
+        }
 
         return mips.toString();
     }

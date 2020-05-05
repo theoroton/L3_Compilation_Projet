@@ -2,7 +2,6 @@ package yal.arbre;
 
 import yal.exceptions.AnalyseSemantiqueException;
 import yal.factories.BoolFactory;
-import yal.factories.NumFactory;
 import yal.tds.Fonction;
 import yal.tds.TDS;
 
@@ -48,8 +47,12 @@ public class Decl_Fonction extends ArbreAbstrait {
         mips.append("\t#Fonction " + nomF + "\n");
         mips.append(nomF + ": \n");
         mips.append("\t#Entree fonction\n");
-        mips.append("\tsw $s7, ($sp)\n");
-        mips.append("\tadd $sp, $sp, -4\n\n");
+        int vars = -TDS.getInstance().getDeplFonction();
+
+        if (vars < 0){
+            mips.append("\tadd $s3, $s3, " + vars + "\n\n");
+        }
+
         mips.append(instructions.toMIPS());
 
         TDS.getInstance().setNumBlocCourant(0);

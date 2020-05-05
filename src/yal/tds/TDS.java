@@ -37,6 +37,12 @@ public class TDS {
     public void ajouter(Entree e, Symbole s, int noLigne){
         boolean existe = false;
 
+        if (e.getClass() == Tableau.class){
+            s.setTaille(e.getTaille());
+        }
+
+
+
         if (e.getClass() == Fonction.class){
             for (Entree entry : getBloc(0).keySet()){
                 if (entry.getNom().equals(e.getNom()) && entry.getClass() == Fonction.class && ((Fonction) entry).getNbParams() == ((Fonction) e).getNbParams()){
@@ -81,12 +87,15 @@ public class TDS {
                  ex = new AnalyseSemantiqueException(noLigne, "Variable '"+e.getNom()+ " : déjà déclarée");
             } else if (e.getClass() == Fonction.class){
                  ex = new AnalyseSemantiqueException(noLigne, "Fonction '"+e.getNom()+ "' avec " + ((Fonction) e).getNbParams() + " paramètres : déjà déclarée");
+            } else if (e.getClass() == Tableau.class) {
+                 ex = new AnalyseSemantiqueException(noLigne, "Tableau '"+e.getNom()+ "' : déjà déclaré");
             } else {
                  ex = new AnalyseSemantiqueException(noLigne, "Paramètre '"+e.getNom()+ "' : déjà déclaré");
             }
 
             exceptions_sem.add(ex);
         }
+
     }
 
     public Symbole identifier(Entree e){
@@ -183,24 +192,24 @@ public class TDS {
         return nbParamsCourant;
     }
 
+    public void addExceptionTableau(int noLigne) {
+        AnalyseSemantiqueException ex;
+        ex = new AnalyseSemantiqueException(noLigne, "La taille du tableau doit être une constante entière strictement positive");
+        exceptions_sem.add(ex);
+    }
+
     public HashMap<Entree, Symbole> getBloc(int n){
         return table.elementAt(n);
     }
 
-    public void afficher(){
-        for (HashMap<Entree, Symbole> v : table){
-            System.out.println("-----------");
-            for (Entree entry : v.keySet()){
-                if (entry.getClass() == Fonction.class){
-                    System.out.println("Fonction " + entry.getNom() + " - Parametres : " + ((Fonction) entry).getNbParams());
-                } else if (entry.getClass() == Variable.class) {
-                    System.out.println("Variable " + entry.getNom() + " - Deplacement : " + v.get(entry).getDeplacement());
-                } else {
-                    System.out.println("Parametre " + entry.getNom() + " - Deplacement : " + v.get(entry).getDeplacement());
-                }
+    public int getDeplFonction(){
+        int res = 0;
+        for (Entree e : table.get(numBlocCourant).keySet() ){
+            if (e.getClass() == Variable.class || e.getClass() == Tableau.class){
+                res += e.getTaille();
             }
         }
-        System.out.println(table);
+        return res;
     }
 
 }

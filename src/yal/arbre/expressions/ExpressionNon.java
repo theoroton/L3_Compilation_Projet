@@ -12,11 +12,6 @@ public class ExpressionNon extends Expression {
     }
 
     @Override
-    public String type() {
-        return "bool";
-    }
-
-    @Override
     public void verifier() {
         expression.verifier();
         if (!(expression.type().equals("bool"))){
@@ -31,5 +26,10 @@ public class ExpressionNon extends Expression {
         mips.append("\t#Expression non EXP\n");
         mips.append("\txor $v0, $v0, 1\n");
         return mips.toString();
+    }
+
+    @Override
+    public String type() {
+        return "bool";
     }
 }

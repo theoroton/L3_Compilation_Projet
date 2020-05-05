@@ -2,6 +2,7 @@ package yal.arbre.instructions;
 
 import yal.arbre.expressions.Expression;
 import yal.factories.BoolFactory;
+import yal.tds.Symbole;
 
 public class Ecrire extends Instruction {
 

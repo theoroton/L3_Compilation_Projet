@@ -61,12 +61,12 @@ parser code {:
 terminal Symbol    PROGRAMME, DEBUT, FIN, POINTVIRGULE, ECRIRE, LIRE, ENTIER, AFFECT, SI, ALORS, SINON, FINSI,
                    TANTQUE, REPETER, FINTANTQUE, ADDITION, SOUSTRACTION, MULTIPLICATION, DIVISION, NON, INFERIEUR,
                    SUPERIEUR, PARENTHESEGAUCHE, PARENTHESEDROITE, EGAL, DIFFERENT, ET, OU, FONCTION, RETOURNE,
-                   VIRGULE ;
+                   VIRGULE, CROCHETGAUCHE, CROCHETDROITE, POINT, LONGUEUR ;
 terminal String    IDF, CSTENTIERE ;
    
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST, INST, LDECL, DECL, LDECL_FONC, DECL_VAR, PARAMETRES, PARAM, PAR_EFF, FONC ;
+non terminal ArbreAbstrait PROG, LINST, INST, LDECL, DECL, LDECL_FONC, PARAMETRES, PARAM, PAR_EFF, FONC, DECL_FONC ;
 non terminal Expression EXP ;
 
 precedence left OU ;
@@ -110,6 +110,9 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
                 IDF:i AFFECT EXP:e POINTVIRGULE
                 {: RESULT = new Affect(new IDF(i, ileft + 1), e, ileft + 1) ; :}
         |
+                IDF:i CROCHETGAUCHE EXP:e1 CROCHETDROITE AFFECT EXP:e2 POINTVIRGULE
+                {: RESULT = new Affect(new AccesTableau(i, e1, ileft + 1), e2, ileft + 1) ; :}
+        |
                 SI EXP:e ALORS LINST:li FINSI
                 {: RESULT = new Si(e, li, null, eleft + 1) ; :}
         |
@@ -135,8 +138,11 @@ LDECL   ::=     LDECL:ld  DECL:d
                 ;
 
 
-DECL   ::=      DECL_VAR
-                {: :}
+DECL   ::=      ENTIER IDF:i POINTVIRGULE
+                {: TDS.getInstance().ajouter(new Variable(i), new SymboleVariablePrincipal(TDS.getInstance().getDeplacement()), ileft + 1) ; :}
+        |
+                ENTIER CROCHETGAUCHE EXP:e CROCHETDROITE IDF:i POINTVIRGULE
+                {: TDS.getInstance().ajouter(new Tableau(i,e,ileft + 1), new SymboleTableauPrincipal(TDS.getInstance().getDeplacement()), ileft + 1) ; :}
         |
                 FONC IDF:i PARENTHESEGAUCHE PARENTHESEDROITE DEBUT LINST:li FIN
                 {: Decl_Fonction f = new Decl_Fonction(li, i, ileft + 1, TDS.getInstance().getNbParamsCourant()) ;
@@ -167,15 +173,18 @@ FONC       ::=  FONCTION
                 {: TDS.getInstance().entreeBloc() ; :}
                 ;
 
-LDECL_FONC ::=  LDECL_FONC:ld DECL_VAR
+LDECL_FONC ::=  LDECL_FONC:ld DECL_FONC
                 {: :}
         |
-                DECL_VAR
+                DECL_FONC
                 {: :}
                 ;
 
-DECL_VAR ::=    ENTIER IDF:i POINTVIRGULE
-                {: TDS.getInstance().ajouter(new Variable(i), new SymboleVariable(TDS.getInstance().getDeplacement()), ileft + 1) ; :}
+DECL_FONC  ::=  ENTIER CROCHETGAUCHE EXP:e CROCHETDROITE IDF:i POINTVIRGULE
+                {: TDS.getInstance().ajouter(new Tableau(i,e,ileft + 1), new SymboleTableauFonction(TDS.getInstance().getDeplacement()), ileft + 1) ; :}
+        |
+                ENTIER IDF:i POINTVIRGULE
+                {: TDS.getInstance().ajouter(new Variable(i), new SymboleVariableFonction(TDS.getInstance().getDeplacement()), ileft + 1) ; :}
                 ;
 
 PARAMETRES ::=  PARAMETRES:p POINTVIRGULE PARAM
@@ -240,6 +249,12 @@ EXP    ::=      CSTENTIERE:c
         |
                 EXP:e1 OU:o EXP:e2
                 {: RESULT = new OperationBinaire(e1, new Ou(oleft + 1), e2, e1left + 1) ; :}
+        |
+                IDF:i CROCHETGAUCHE EXP:e CROCHETDROITE
+                {: RESULT = new AccesTableau(i, e, ileft + 1) ; :}
+        |
+                IDF:i POINT LONGUEUR
+                {: RESULT = new Longueur(i, ileft + 1) ; :}
                 ;
 
 PAR_EFF ::=     PAR_EFF:pe VIRGULE EXP:e
